@@ -1,0 +1,1035 @@
+{
+  "chapters": [
+    {
+      "id": "c10-ch1-basics",
+      "classLevel": "class10",
+      "chapterNumber": 1,
+      "unitName": "Unit 1: Python Fundamentals",
+      "title": "Tokens, Variables, Operators & Interactive Input/Output",
+      "marksWeightage": 10,
+      "difficulty": "Easy",
+      "overview": "Covers the building blocks of Python programming for CBSE Class 10: character sets, tokens (keywords, identifiers, literals, operators, punctuators), variables, dynamic typing, input() and print() with sep and end parameters.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "print() with sep & end",
+          "syntax": "print(\"CBSE\", \"Class\", 10, sep=\"-\", end=\"!\\n\")",
+          "note": "Default sep is space \" \" and default end is newline \"\\n\"."
+        },
+        {
+          "label": "Numeric Input Conversion",
+          "syntax": "marks = float(input(\"Enter marks: \"))",
+          "note": "input() always returns a string (str); cast with int() or float() for arithmetic."
+        },
+        {
+          "label": "Floor Division & Modulo",
+          "syntax": "quotient = 17 // 5   # 3\nremainder = 17 % 5   # 2\npower = 2 ** 4       # 16",
+          "note": "// truncates toward negative infinity; % returns the remainder."
+        }
+      ],
+      "topics": [
+        {
+          "id": "c10-t1-tokens",
+          "title": "1.1 Python Tokens, Identifiers & Data Types",
+          "summary": "A token is the smallest individual unit in a Python program. Python has 5 token types: Keywords, Identifiers, Literals, Operators, and Punctuators.",
+          "keyPoints": [
+            "Identifiers can contain letters (A-Z, a-z), digits (0-9), and underscores (_), but CANNOT start with a digit.",
+            "Keywords like False, None, True, def, if, elif, else, for, while, import are case-sensitive (only True, False, None are capitalized!).",
+            "Core Data Types: int, float, str, bool, list, tuple, dict, NoneType.",
+            "Use type(x) to inspect the data type and id(x) to inspect the memory address of an object."
+          ],
+          "boardTip": "CBSE 1-Mark Favourite: Which of the following is an invalid identifier? e.g. `my_var_1` (Valid), `_score` (Valid), `2nd_place` (Invalid — starts with digit), `my-score` (Invalid — hyphen is subtraction operator).",
+          "codeExamples": [
+            {
+              "title": "Interactive Student Profile & Type Inspector",
+              "description": "Reads student details via input() and inspects Python data types.",
+              "code": "# CBSE Class 10 - Chapter 1: Variables, Types & Interactive input()\nstudent_name = input(\"Enter Student Name: \")\nroll_no = int(input(\"Enter Roll Number: \"))\npercentage = float(input(\"Enter Pre-Board Percentage: \"))\n\nprint(\"\\n--- CBSE Class 10 Student Summary ---\")\nprint(\"Name:\", student_name, \"| Type:\", type(student_name).__name__)\nprint(\"Roll No:\", roll_no, \"| Type:\", type(roll_no).__name__)\nprint(\"Percentage:\", percentage, \"| Type:\", type(percentage).__name__)\nprint(\"Status\", \"Passed\", sep=\" -> \", end=\" 🌟\\n\")\n"
+            }
+          ]
+        },
+        {
+          "id": "c10-t2-operators",
+          "title": "1.2 Arithmetic, Relational & Logical Operators",
+          "summary": "Operators perform computations and comparisons. Understanding operator precedence (PEMDAS / BODMAS) is essential for CBSE output questions.",
+          "keyPoints": [
+            "Exponentiation `**` has the highest arithmetic precedence and is right-associative (`2 ** 3 ** 2` = `2 ** 9` = `512`!).",
+            "`/` (True Division) ALWAYS returns a `float` (e.g., `10 / 2` gives `5.0`).",
+            "`//` (Floor Division) returns an `int` if both operands are `int`, or a `float` if either operand is `float` (`10.0 // 3` gives `3.0`).",
+            "Logical operators precedence: `not` > `and` > `or`."
+          ],
+          "boardTip": "Watch out for `2 ** 3 ** 2` in exams! Because `**` evaluates right-to-left, `3 ** 2` is evaluated first (`9`), giving `2 ** 9 = 512` (not `64`).",
+          "codeExamples": [
+            {
+              "title": "Operator Precedence & EMI/Interest Calculator",
+              "description": "Demonstrates arithmetic operators, floor division, and right-associative exponentiation.",
+              "code": "# CBSE Class 10 - Operators & Precedence Demo\nprincipal = float(input(\"Enter Principal Amount (₹): \"))\nrate = float(input(\"Enter Annual Rate (%): \"))\ntime_years = int(input(\"Enter Time (years): \"))\n\nsimple_interest = (principal * rate * time_years) / 100\ncompound_amount = principal * ((1 + rate / 100) ** time_years)\n\nprint(f\"\\nSimple Interest : ₹{simple_interest:.2f}\")\nprint(f\"Compound Amount : ₹{compound_amount:.2f}\")\nprint(\"\\n--- Board Exam Precedence Check ---\")\nprint(\"2 ** 3 ** 2 =\", 2 ** 3 ** 2, \"(Right-to-left associativity)\")\nprint(\"17 // 5 =\", 17 // 5, \"| -17 // 5 =\", -17 // 5)\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c10-ch2-control-flow",
+      "classLevel": "class10",
+      "chapterNumber": 2,
+      "unitName": "Unit 2: Control Flow",
+      "title": "Conditional Statements (if-elif-else) & Loops (for, while)",
+      "marksWeightage": 12,
+      "difficulty": "Moderate",
+      "overview": "Decision-making using if, elif, else, and iteration using range(), for loops, while loops, break, continue, and loop else clauses.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "range(start, stop, step)",
+          "syntax": "list(range(10, 0, -2))  # [10, 8, 6, 4, 2]",
+          "note": "stop value is always EXCLUDED from the generated sequence."
+        },
+        {
+          "label": "for-else / while-else",
+          "syntax": "for x in nums:\n    if x == target: break\nelse:\n    print(\"Not found\")",
+          "note": "The else block of a loop executes ONLY if the loop finishes normally without hitting a break statement."
+        }
+      ],
+      "topics": [
+        {
+          "id": "c10-t3-conditionals",
+          "title": "2.1 Decision Making with if, elif, else",
+          "summary": "Conditional statements test boolean expressions and execute indented blocks accordingly.",
+          "keyPoints": [
+            "Indentation (4 spaces) defines block scope in Python.",
+            "`elif` allows testing multiple mutually exclusive conditions; as soon as one branch is True, the rest are skipped.",
+            "Nested `if` statements allow checking secondary conditions inside an outer branch."
+          ],
+          "codeExamples": [
+            {
+              "title": "CBSE Electricity Bill Slab Calculator",
+              "description": "Classic CBSE Class 10 slab-based billing program using if-elif-else.",
+              "code": "# CBSE Class 10 - Electricity Bill Slab Calculator\nunits = int(input(\"Enter electricity units consumed: \"))\n\nif units <= 100:\n    bill = units * 3.5\nelif units <= 200:\n    bill = (100 * 3.5) + ((units - 100) * 5.0)\nelse:\n    bill = (100 * 3.5) + (100 * 5.0) + ((units - 200) * 7.5)\n\nprint(f\"Total Units : {units}\")\nprint(f\"Total Bill  : ₹{bill:.2f}\")\n"
+            }
+          ]
+        },
+        {
+          "id": "c10-t4-loops",
+          "title": "2.2 Iteration: for, while, break, continue & Patterns",
+          "summary": "Use `for` loops when the number of iterations is known (or when traversing a sequence) and `while` loops for condition-controlled repetition.",
+          "keyPoints": [
+            "`break` terminates the innermost loop immediately.",
+            "`continue` skips the rest of the current iteration and jumps to the next iteration.",
+            "A `for` or `while` loop can have an optional `else:` block that runs only if `break` was never triggered."
+          ],
+          "boardTip": "For prime number checking, using `for...else` is the cleanest Pythonic pattern: check divisors from `2` to `int(n**0.5) + 1`!",
+          "codeExamples": [
+            {
+              "title": "Prime Number, Factorial & Fibonacci Generator",
+              "description": "Demonstrates for-else loop for Prime test and Fibonacci series generation.",
+              "code": "# CBSE Class 10 - Prime Checker & Fibonacci Series\nn = int(input(\"Enter a positive integer: \"))\n\nif n < 2:\n    print(f\"{n} is neither Prime nor Composite.\")\nelse:\n    for d in range(2, int(n ** 0.5) + 1):\n        if n % d == 0:\n            print(f\"{n} is Composite (divisible by {d}).\")\n            break\n    else:\n        print(f\"✨ {n} is a PRIME number!\")\n\n# Print first 8 Fibonacci numbers\nprint(\"\\nFirst 8 Fibonacci Numbers:\")\na, b = 0, 1\nfor _ in range(8):\n    print(a, end=\" \")\n    a, b = b, a + b\nprint()\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c10-ch3-lists-strings",
+      "classLevel": "class10",
+      "chapterNumber": 3,
+      "unitName": "Unit 3: Sequence Data Types",
+      "title": "Strings, Lists & Tuples in Python",
+      "marksWeightage": 15,
+      "difficulty": "High Weightage",
+      "overview": "Comprehensive guide to indexing (positive & negative), slicing, mutability vs immutability, built-in string methods, and list manipulation functions.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "List Slicing & Reversal",
+          "syntax": "items[start : stop : step]\nitems[::-1]  # Reverses sequence",
+          "note": "Negative indices count from the right starting at -1."
+        },
+        {
+          "label": "append() vs extend()",
+          "syntax": "L.append([4, 5])  # Adds as single nested list\nL.extend([4, 5])  # Adds 4 and 5 individually",
+          "note": "Frequently tested in CBSE 1-mark and 2-mark questions!"
+        }
+      ],
+      "topics": [
+        {
+          "id": "c10-t5-lists",
+          "title": "3.1 Lists: Indexing, Slicing & Built-in Methods",
+          "summary": "Lists are ordered, mutable sequences enclosed in square brackets `[]`. Elements can be modified in-place.",
+          "keyPoints": [
+            "`L.append(x)` adds `x` at the end; `L.insert(i, x)` inserts `x` at index `i`.",
+            "`L.pop(i)` removes and returns item at index `i` (default `-1`); `L.remove(val)` deletes first occurrence of `val`.",
+            "`L.sort()` sorts the list in-place and returns `None`, whereas `sorted(L)` returns a new sorted list!"
+          ],
+          "boardTip": "Trap Alert: `res = my_list.sort()` assigns `None` to `res` because `.sort()` modifies the list in-place!",
+          "codeExamples": [
+            {
+              "title": "Interactive Class Marks Analyzer using Lists",
+              "description": "Reads student marks into a list and computes highest, lowest, average, and sorted rank list.",
+              "code": "# CBSE Class 10 - List Operations & Marks Analyzer\nn = int(input(\"How many subjects? \"))\nmarks = []\n\nfor i in range(1, n + 1):\n    m = float(input(f\"Enter marks for Subject {i}: \"))\n    marks.append(m)\n\nprint(\"\\n📊 Marks Report:\")\nprint(\"Original List :\", marks)\nprint(\"Highest Marks :\", max(marks))\nprint(\"Lowest Marks  :\", min(marks))\nprint(f\"Average Marks : {sum(marks) / len(marks):.2f}\")\nprint(\"Sorted (Desc) :\", sorted(marks, reverse=True))\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c10-ch4-ai-data",
+      "classLevel": "class10",
+      "chapterNumber": 4,
+      "unitName": "Unit 4: AI 417 Data Literacy & Statistics in Python",
+      "title": "Statistical Analysis (Mean, Median, Mode) & Tabular Data",
+      "marksWeightage": 13,
+      "difficulty": "Moderate",
+      "overview": "Essential for CBSE Class 10 Artificial Intelligence (Code 417): computing measures of central tendency (Mean, Median, Mode), dispersion, and reading CSV datasets in Python.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "Built-in statistics Module",
+          "syntax": "import statistics\nstatistics.mean(data)\nstatistics.median(data)\nstatistics.mode(data)",
+          "note": "Standard library module available in every Python installation."
+        }
+      ],
+      "topics": [
+        {
+          "id": "c10-t6-stats",
+          "title": "4.1 Central Tendency & Data Cleaning in Python",
+          "summary": "Data Science in AI starts with summarizing numerical datasets using Mean (average), Median (middle value), and Mode (most frequent value).",
+          "keyPoints": [
+            "Mean is sensitive to extreme outliers; Median is robust against outliers.",
+            "Mode can be used for both numerical and categorical data."
+          ],
+          "codeExamples": [
+            {
+              "title": "AI Dataset Statistics Calculator",
+              "description": "Computes Mean, Median, Mode, Variance, and Standard Deviation on a sample dataset.",
+              "code": "import statistics\n\nscores = [78, 85, 92, 85, 67, 90, 85, 95, 88]\nprint(\"Dataset:\", scores)\nprint(f\"Mean (Average)     : {statistics.mean(scores):.2f}\")\nprint(f\"Median (Middle)    : {statistics.median(scores)}\")\nprint(f\"Mode (Most Common) : {statistics.mode(scores)}\")\nprint(f\"Std Deviation      : {statistics.stdev(scores):.2f}\")\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch1-revision-tour",
+      "classLevel": "class12",
+      "chapterNumber": 1,
+      "unitName": "Unit 1: Computational Thinking & Programming - 2",
+      "title": "Python Revision Tour I & II (Mutability, Slicing & Dictionaries)",
+      "marksWeightage": 8,
+      "difficulty": "Moderate",
+      "overview": "Covers Class 11 foundations tested heavily in Class 12 Section A & B: Mutable vs Immutable objects, shallow vs deep copy, tricky string/list/tuple slicing, and dictionary methods.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "Mutable vs Immutable Types",
+          "syntax": "Immutable: int, float, bool, str, tuple\nMutable  : list, dict, set",
+          "note": "Dictionary keys MUST be immutable types (str, int, or tuple without mutable elements)."
+        },
+        {
+          "label": "Safe Dictionary Lookup & Update",
+          "syntax": "d.get(key, default_val)\nd.setdefault(key, 0)\nd1.update(d2)",
+          "note": "d.get(\"x\", 0) avoids KeyError when key \"x\" does not exist."
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t1-mutability",
+          "title": "1.1 Mutability, Aliasing vs Cloning & Tuple Unpacking",
+          "summary": "Assigning `B = A` on a list creates an alias (both point to the same memory id). Modifying `B` also modifies `A` unless cloned with `B = A.copy()` or `B = A[:]`.",
+          "keyPoints": [
+            "Single-element tuple requires a trailing comma: `t = (10,)` is a `tuple`, whereas `t = (10)` is just an `int`!",
+            "Even though a `tuple` is immutable, if it contains a mutable `list` inside it (`t = (1, [2, 3])`), `t[1].append(4)` is valid and mutates the inner list!",
+            "`str.partition(sep)` always returns a 3-tuple `(before, sep, after)`, whereas `str.split(sep)` returns a `list` without the separator."
+          ],
+          "boardTip": "CBSE Board Classic: `t = (10, [20, 30])` followed by `t[1][0] = 99` does NOT raise an error because the list inside the tuple is mutable!",
+          "codeExamples": [
+            {
+              "title": "CBSE Board Slicing, Tuple Mutability & Dictionary Frequency Counter",
+              "description": "Demonstrates classic Class 12 Section A/B edge cases and character frequency counting.",
+              "code": "# CBSE Class 12 - Revision Tour: Mutability & Dictionary Counter\ntext = input(\"Enter a word or phrase (e.g. MISSISSIPPI): \").strip() or \"MISSISSIPPI\"\n\nfreq = {}\nfor ch in text:\n    freq[ch] = freq.get(ch, 0) + 1\n\nprint(\"\\nCharacter Frequency Dictionary:\", freq)\n\n# Classic Board Exam Tuple with Mutable List Element:\nrecord = (\"Roll-101\", [88, 92, 79])\nrecord[1].append(95)\nprint(\"Updated Tuple with Inner List:\", record)\n\n# partition() vs split() comparison:\nemail = \"student@cbse.gov.in\"\nprint(\"partition('@') ->\", email.partition(\"@\"))\nprint(\"split('@')     ->\", email.split(\"@\"))\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch2-functions",
+      "classLevel": "class12",
+      "chapterNumber": 2,
+      "unitName": "Unit 1: Computational Thinking & Programming - 2",
+      "title": "Working with Functions, Parameters & LEGB Variable Scope",
+      "marksWeightage": 10,
+      "difficulty": "High Weightage",
+      "overview": "User-defined functions, positional/default/keyword arguments, returning multiple values as tuples, LEGB (Local, Enclosing, Global, Built-in) scope rules, and mutable default argument traps.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "Parameter Ordering Rule",
+          "syntax": "def calc(a, b=10, c=20):  # Valid\n# Non-default parameters MUST precede default parameters!",
+          "note": "def calc(a=10, b) raises a SyntaxError!"
+        },
+        {
+          "label": "LEGB Scope & global Keyword",
+          "syntax": "def update():\n    global counter\n    counter += 5",
+          "note": "Without `global counter`, assigning `counter += 5` inside a function raises UnboundLocalError."
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t2-functions-scope",
+          "title": "2.1 Function Arguments, Return Values & Global Scope Tracing",
+          "summary": "Every CBSE Class 12 CS paper includes at least two output-tracing questions based on default parameters and `global` variable mutation.",
+          "keyPoints": [
+            "If a function has no `return` statement (or just `return`), it implicitly returns `None`.",
+            "Returning multiple values `return a, b, c` packs them into a `tuple` `(a, b, c)`.",
+            "Passing a `list` to a function and calling `.append()` or index assignment `L[0] = x` modifies the caller’s list, whereas reassigning `L = [1, 2]` inside the function only rebinds the local reference!"
+          ],
+          "boardTip": "When tracing output questions, always maintain two columns on your rough sheet: **Global X** and **Local X**!",
+          "codeExamples": [
+            {
+              "title": "CBSE Board Scope Tracer & Multi-Return Function",
+              "description": "Traces global vs local variables and returns multiple statistics from a function.",
+              "code": "# CBSE Class 12 - Functions, Default Args & LEGB Scope\nval = 50\n\ndef changer(p, q=10):\n    global val\n    val = val + p + q\n    p = p * 2\n    print(f\"Inside changer -> val={val}, p={p}, q={q}\")\n    return val\n\nprint(\"Initial val:\", val)\nres1 = changer(15)\nprint(\"After changer(15) ->\", res1)\nres2 = changer(5, 25)\nprint(\"After changer(5, 25) ->\", res2)\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch3-exceptions",
+      "classLevel": "class12",
+      "chapterNumber": 3,
+      "unitName": "Unit 1: Computational Thinking & Programming - 2",
+      "title": "Exception Handling (try, except, else, finally & raise)",
+      "marksWeightage": 4,
+      "difficulty": "Easy",
+      "overview": "Syntax errors vs runtime exceptions, standard built-in exceptions, catching specific exceptions, the try-except-else-finally execution flow, and raising custom exceptions with raise.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "Full try-except-else-finally Block",
+          "syntax": "try:\n    risky()\nexcept ValueError:\n    handle()\nelse:\n    runs_if_no_error()\nfinally:\n    always_runs()",
+          "note": "else runs ONLY when no exception occurs in try; finally runs ALWAYS."
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t3-exceptions",
+          "title": "3.1 Built-in Exceptions & try-except-else-finally Flow",
+          "summary": "Exception handling prevents abrupt program termination when runtime errors occur.",
+          "keyPoints": [
+            "`ZeroDivisionError`: division or modulo by zero.",
+            "`ValueError`: right type but inappropriate value, e.g. `int(\"xyz\")`.",
+            "`TypeError`: operation applied to incompatible types, e.g. `\"Age: \" + 18`.",
+            "`EOFError`: `input()` hits end-of-file OR `pickle.load(f)` reaches the end of a binary file!",
+            "`KeyError`: missing dictionary key; `IndexError`: out-of-range sequence index."
+          ],
+          "codeExamples": [
+            {
+              "title": "Complete try / except / else / finally Flow with raise",
+              "description": "Demonstrates custom age validation using raise ValueError and finally cleanup.",
+              "code": "# CBSE Class 12 - Exception Handling Flow\ntry:\n    marks = int(input(\"Enter student marks (0-100): \"))\n    if marks < 0 or marks > 100:\n        raise ValueError(\"Marks must be between 0 and 100!\")\n    subjects = int(input(\"Enter number of subjects: \"))\n    avg = marks / subjects\nexcept ValueError as ve:\n    print(\"❌ ValueError Caught:\", ve)\nexcept ZeroDivisionError:\n    print(\"❌ ZeroDivisionError: Subjects cannot be zero!\")\nelse:\n    print(f\"✅ Validation Passed! Average per subject = {avg:.2f}\")\nfinally:\n    print(\"🔒 [finally block] Evaluation session completed.\")\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch4-text-files",
+      "classLevel": "class12",
+      "chapterNumber": 4,
+      "unitName": "Unit 1: Computational Thinking & Programming - 2",
+      "title": "File Handling — Text Files (.txt), seek() & tell()",
+      "marksWeightage": 6,
+      "difficulty": "High Weightage",
+      "overview": "Opening and closing text files, file access modes (r, w, a, r+, w+, a+), reading methods (read, readline, readlines), writing methods (write, writelines), file pointer manipulation with seek() and tell(), and classic CBSE text file algorithms.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "read() vs readline() vs readlines()",
+          "syntax": "f.read(n)      -> returns str (up to n chars)\nf.readline()   -> returns single line str\nf.readlines()  -> returns list of line strings",
+          "note": "Crucial return type distinction for CBSE 1-mark and 3-mark questions!"
+        },
+        {
+          "label": "seek(offset, reference_point) & tell()",
+          "syntax": "f.tell()       -> current byte position (int)\nf.seek(0)      -> move pointer to beginning of file",
+          "note": "In text mode, seek(offset, 0) from start of file is standard."
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t4-textfiles",
+          "title": "4.1 CBSE Board Text File Algorithms (Lines, Words & Characters)",
+          "summary": "Every CBSE Class 12 exam features a 3-mark function on text files: either character-level (`f.read()`), word-level (`f.read().split()`), or line-level (`for line in f:` or `f.readlines()`).",
+          "keyPoints": [
+            "Use `with open(\"story.txt\", \"r\") as f:` so the file closes automatically.",
+            "To count words starting with a vowel or having length < 4, use `words = f.read().split()`.",
+            "To count lines starting with `\"A\"` or `\"T\"`, iterate `for line in f:` and check `if line.lstrip().upper().startswith(\"A\"):`."
+          ],
+          "boardTip": "Remember: `f.writelines(list_of_strings)` does NOT add newline `\\n` characters automatically—you must include `\\n` at the end of each string!",
+          "codeExamples": [
+            {
+              "title": "Live Runnable Text File Creator, Analyzer & seek()/tell() Demo",
+              "description": "Creates story.txt in the sandbox and performs CBSE-style line, word, and vowel analysis.",
+              "code": "# CBSE Class 12 - Text File Handling (Runs live in sandbox!)\nsample_lines = [\n    \"Artificial Intelligence is transforming education.\\n\",\n    \"Python makes file handling simple and readable.\\n\",\n    \"Always close files or use the with statement.\\n\",\n    \"All students can master Computer Science!\\n\"\n]\n\n# 1. Write sample lines to story.txt\nwith open(\"story.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.writelines(sample_lines)\n\n# 2. CBSE Board Question: Count lines starting with 'A', words < 5 chars, and vowels\nwith open(\"story.txt\", \"r\", encoding=\"utf-8\") as f:\n    print(\"Initial pointer position f.tell():\", f.tell())\n    content = f.read()\n    print(\"Pointer after f.read() -> f.tell():\", f.tell())\n\n    # Reset file pointer back to byte 0 using seek(0)\n    f.seek(0)\n    lines = f.readlines()\n\nlines_starting_with_a = sum(1 for ln in lines if ln.strip().upper().startswith(\"A\"))\nwords = content.split()\nshort_words = [w for w in words if len(w) <= 4]\nvowels = sum(1 for ch in content.lower() if ch in \"aeiou\")\n\nprint(\"\\n📄 Text File Analysis of 'story.txt':\")\nprint(f\"  • Total Lines               : {len(lines)}\")\nprint(f\"  • Lines starting with 'A'   : {lines_starting_with_a}\")\nprint(f\"  • Total Words               : {len(words)}\")\nprint(f\"  • Words with <= 4 chars     : {len(short_words)} -> {short_words}\")\nprint(f\"  • Total Vowels              : {vowels}\")\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch5-binary-csv",
+      "classLevel": "class12",
+      "chapterNumber": 5,
+      "unitName": "Unit 1: Computational Thinking & Programming - 2",
+      "title": "Binary Files (pickle module) & CSV Files (csv module)",
+      "marksWeightage": 8,
+      "difficulty": "High Weightage",
+      "overview": "Serialization and deserialization using pickle.dump() and pickle.load(), EOFError loop pattern for reading binary files, and reading/writing tabular CSV files with csv.reader() and csv.writer() using newline=\"\".",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "Binary File Read Loop (pickle)",
+          "syntax": "import pickle\nwith open(\"emp.dat\", \"rb\") as f:\n    try:\n        while True:\n            rec = pickle.load(f)\n    except EOFError:\n        pass",
+          "note": "pickle.load(f) raises EOFError when no more objects remain in the binary file."
+        },
+        {
+          "label": "CSV File Open without Blank Lines",
+          "syntax": "import csv\nwith open(\"data.csv\", \"w\", newline=\"\") as f:\n    w = csv.writer(f)\n    w.writerow([\"Roll\", \"Name\"])",
+          "note": "Always pass newline=\"\" in open() on Windows to prevent extra blank rows between records!"
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t5-binary-pickle",
+          "title": "5.1 Binary File Operations: Append, Search & Filter with pickle",
+          "summary": "Binary files store Python objects (lists, dictionaries) directly in byte stream format using the `pickle` module (`wb`, `ab`, `rb`).",
+          "keyPoints": [
+            "`pickle.dump(obj, file_handle)` writes a Python object to a binary file.",
+            "`pickle.load(file_handle)` reads one Python object at a time and raises `EOFError` at end of file.",
+            "Always open binary files with `\"wb\"`, `\"ab\"`, `\"rb\"`, or `\"rb+\"`."
+          ],
+          "codeExamples": [
+            {
+              "title": "CBSE 4-Mark Binary File (`student.dat`) Write & Search Program",
+              "description": "Creates student.dat using pickle.dump() and searches for students scoring > 85%.",
+              "code": "import pickle\n\ndef create_binary_records():\n    students = [\n        [101, \"Aarav Sharma\", 92.5],\n        [102, \"Diya Patel\", 78.0],\n        [103, \"Rohan Verma\", 88.5],\n        [104, \"Meera Nair\", 95.0]\n    ]\n    with open(\"student.dat\", \"wb\") as f:\n        for stu in students:\n            pickle.dump(stu, f)\n    print(\"✅ Wrote 4 records to binary file 'student.dat'.\")\n\ndef search_merit_students(min_marks=85.0):\n    print(f\"\\n🔍 Searching 'student.dat' for Marks >= {min_marks}:\")\n    found = 0\n    with open(\"student.dat\", \"rb\") as f:\n        try:\n            while True:\n                rec = pickle.load(f)\n                if rec[2] >= min_marks:\n                    print(f\"  • Roll: {rec[0]} | Name: {rec[1]:14} | Marks: {rec[2]}%\")\n                    found += 1\n        except EOFError:\n            pass\n    print(f\"Total Merit Students Found: {found}\")\n\ncreate_binary_records()\nsearch_merit_students(85.0)\n"
+            },
+            {
+              "title": "CBSE 4-Mark CSV File (`employees.csv`) Writer & Reader",
+              "description": "Writes employee records using csv.writer() and filters salaries using csv.reader().",
+              "code": "import csv\n\ndef write_employees_csv():\n    header = [\"EmpID\", \"Name\", \"Department\", \"Salary\"]\n    rows = [\n        [\"E101\", \"Kabir\", \"AI Research\", \"85000\"],\n        [\"E102\", \"Ananya\", \"Cloud Ops\", \"72000\"],\n        [\"E103\", \"Vikram\", \"CyberSecurity\", \"94000\"]\n    ]\n    with open(\"employees.csv\", \"w\", newline=\"\", encoding=\"utf-8\") as f:\n        writer = csv.writer(f)\n        writer.writerow(header)\n        writer.writerows(rows)\n    print(\"✅ Created 'employees.csv' with newline=''\")\n\ndef read_high_earners():\n    print(\"\\n📊 Employees earning > ₹80,000:\")\n    with open(\"employees.csv\", \"r\", encoding=\"utf-8\") as f:\n        reader = csv.reader(f)\n        header = next(reader)  # Skip header row!\n        for row in reader:\n            if int(row[3]) > 80000:\n                print(f\"  • {row[0]} - {row[1]} ({row[2]}): ₹{row[3]}\")\n\nwrite_employees_csv()\nread_high_earners()\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch6-stack",
+      "classLevel": "class12",
+      "chapterNumber": 6,
+      "unitName": "Unit 1: Data Structures in Python",
+      "title": "Data Structures — Stack Implementation using Python Lists (LIFO)",
+      "marksWeightage": 4,
+      "difficulty": "Easy",
+      "overview": "Guaranteed 3-to-4 mark question in CBSE Class 12 CS Paper! Covers LIFO (Last-In, First-Out) principle, Push (append), Pop (pop), Peek (stack[-1]), Overflow/Underflow conditions, and conditional push from dictionaries/lists.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "Push, Pop & Peek on List Stack",
+          "syntax": "stack.append(item)         # PUSH\nif not stack: \"Underflow\"  # Check Empty\nstack.pop()                # POP\nstack[-1]                  # PEEK (Top element)",
+          "note": "Always check `if len(stack) == 0:` (or `if not stack:`) before calling `stack.pop()`!"
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t6-stack",
+          "title": "6.1 CBSE 3-Mark Stack Push & Pop Pattern",
+          "summary": "CBSE Board exams ask you to write `PushOn(stack, data)` and `PopFrom(stack)` functions that filter a dictionary or list of records and pop all items until \"Stack Empty\".",
+          "keyPoints": [
+            "LIFO means the last element pushed onto the stack is the first element popped out.",
+            "Attempting to pop from an empty stack causes an **Underflow** condition (`IndexError: pop from empty list` if unchecked).",
+            "Top of the stack is always at index `len(stack) - 1` (or `-1`)."
+          ],
+          "codeExamples": [
+            {
+              "title": "CBSE Board Pattern: Push & Pop Books Stack (LIFO)",
+              "description": "Implements PushBook(stack, book_dict) and PopBook(stack) with Underflow check.",
+              "code": "# CBSE Class 12 - 3-Mark Stack Question Pattern (LIFO)\nstack = []\n\nbooks_catalog = {\n    \"Python Crash Course\": 650,\n    \"NCERT Computer Science\": 240,\n    \"Deep Learning with Python\": 890,\n    \"SQL Pocket Guide\": 380,\n    \"Algorithms Unlocked\": 550\n}\n\ndef PushBook(stk, catalog):\n    \"\"\"Pushes names of books costing more than ₹500 onto the stack.\"\"\"\n    for title, price in catalog.items():\n        if price > 500:\n            stk.append(title)\n            print(f\"PUSH -> '{title}' (₹{price})\")\n\ndef PopBook(stk):\n    \"\"\"Pops and displays all elements from stack until Underflow.\"\"\"\n    print(\"\\n--- Popping Stack (LIFO Order) ---\")\n    while True:\n        if len(stk) == 0:\n            print(\"Stack Empty (Underflow)\")\n            break\n        print(\"POP  <-\", stk.pop())\n\nPushBook(stack, books_catalog)\nPopBook(stack)\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch7-networks",
+      "classLevel": "class12",
+      "chapterNumber": 7,
+      "unitName": "Unit 2: Computer Networks",
+      "title": "Computer Networks, Topologies, Devices, Protocols & 5-Mark Case Study",
+      "marksWeightage": 10,
+      "difficulty": "High Weightage",
+      "overview": "Types of networks (PAN, LAN, MAN, WAN), transmission media (Twisted Pair, Coaxial, Optical Fiber, Radio/Microwave/Satellite), networking devices (Modem, RJ45, Repeater, Hub, Switch, Router, Gateway), topologies (Star, Bus, Tree), protocols, and the 5-Mark Campus Layout Case Study.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "5-Mark Case Study Golden Rules",
+          "syntax": "1. Server Location -> Block with MAXIMUM computers (80-20 rule)\n2. Cable Layout    -> Star topology from Server Block OR shortest cable distance\n3. Repeater        -> Between blocks where distance > 70m to 100m\n4. Switch          -> Inside EVERY block to connect computers",
+          "note": "Guaranteed 5-mark Section E question in every CBSE Class 12 CS & IP Board Exam!"
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t7-network-case-study",
+          "title": "7.1 Networking Devices, Protocols & 5-Mark Case Study Solver",
+          "summary": "Master the exact decision rules for the 5-Mark Campus Network Design question in Section E.",
+          "keyPoints": [
+            "**Switch vs Hub**: A Switch is an intelligent device that unicasts data frames only to the target MAC address; a Hub broadcasts to all ports.",
+            "**Router vs Gateway**: A Router connects networks using similar protocols and forwards packets by IP address; a Gateway connects dissimilar networks.",
+            "**Repeater**: Regenerates weakened signals when cable length exceeds ~70–100 meters.",
+            "**Protocols**: HTTP/HTTPS (Web), FTP (File Transfer), SMTP (Sending Email), POP3/IMAP (Receiving Email), VoIP (Voice calls over IP), Telnet/SSH (Remote login)."
+          ],
+          "codeExamples": [
+            {
+              "title": "Interactive CBSE 5-Mark Network Case Study Analyzer in Python",
+              "description": "Calculates optimal server block (80-20 rule) and repeater placement for a 4-block campus!",
+              "code": "# CBSE Class 12 - Interactive 5-Mark Network Case Study Solver\nblocks = {\n    \"Admin Block\": 45,\n    \"Finance Block\": 28,\n    \"R&D Wing\": 140,\n    \"HR Wing\": 35\n}\n\ndistances = [\n    (\"R&D Wing\", \"Admin Block\", 65),\n    (\"R&D Wing\", \"Finance Block\", 115),\n    (\"R&D Wing\", \"HR Wing\", 85)\n]\n\nprint(\"🏢 Campus Blocks & Computer Counts:\")\nfor blk, count in blocks.items():\n    print(f\"  • {blk:15} : {count} computers\")\n\nbest_server = max(blocks, key=blocks.get)\nprint(f\"\\n✅ Q1. Optimal Server Location: '{best_server}' ({blocks[best_server]} computers)\")\nprint(\"   Reason: 80-20 Network Rule — reduces inter-block traffic by hosting server where most computers reside.\")\n\nprint(\"\\n✅ Q2. Repeater Placement Check (Threshold > 80 meters):\")\nfor b1, b2, dist in distances:\n    need_rep = \"YES (Install Repeater)\" if dist > 80 else \"No repeater needed\"\n    print(f\"  • {b1} <-> {b2} ({dist}m) : {need_rep}\")\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c12-ch8-sql-dbms",
+      "classLevel": "class12",
+      "chapterNumber": 8,
+      "unitName": "Unit 3: Database Management (SQL & Python-DB Connectivity)",
+      "title": "Relational Databases, SQL Queries, Joins & Python-SQL Connectivity",
+      "marksWeightage": 20,
+      "difficulty": "High Weightage",
+      "overview": "Worth 20 Marks in CBSE Class 12! Covers RDBMS keys (Primary, Candidate, Alternate, Foreign), Degree vs Cardinality, DDL/DML queries, Aggregate functions (COUNT, SUM, AVG, MIN, MAX), GROUP BY & HAVING, Joins, and Python database connectivity using sqlite3 / mysql.connector.",
+      "importantFormulasOrSyntax": [
+        {
+          "label": "Degree vs Cardinality of a Table",
+          "syntax": "Degree      = Number of Columns (Attributes)\nCardinality = Number of Rows (Tuples)\nCartesian Product of A(d1, c1) x B(d2, c2):\n  New Degree = d1 + d2 | New Cardinality = c1 * c2",
+          "note": "Asked every single year in CBSE Class 12 Theory Exam!"
+        },
+        {
+          "label": "COUNT(*) vs COUNT(column) & WHERE vs HAVING",
+          "syntax": "COUNT(*)      -> Counts ALL rows including NULLs\nCOUNT(col)    -> Ignores NULL values in col\nWHERE         -> Filters individual rows BEFORE grouping\nHAVING        -> Filters groups AFTER GROUP BY (supports aggregates)",
+          "note": "Remember: `WHERE col IS NULL` (never `= NULL`)!"
+        }
+      ],
+      "topics": [
+        {
+          "id": "c12-t8-sql-python",
+          "title": "8.1 Live Python + SQL Execution using Built-in sqlite3 Engine",
+          "summary": "Python’s `sqlite3` follows the exact same DB-API 2.0 workflow (`connect()`, `cursor()`, `execute()`, `fetchall()`, `commit()`, `rowcount`) as `mysql.connector`—and runs live right inside our Python IDE!",
+          "keyPoints": [
+            "Step 1: `con = connect(...)` establishes the database connection.",
+            "Step 2: `cur = con.cursor()` creates a cursor object to execute SQL queries.",
+            "Step 3: `cur.execute(sql, params)` runs the SQL command.",
+            "Step 4: `cur.fetchone()`, `cur.fetchmany(n)`, or `cur.fetchall()` retrieves rows from `SELECT`.",
+            "Step 5: `con.commit()` saves `INSERT`, `UPDATE`, and `DELETE` changes permanently."
+          ],
+          "codeExamples": [
+            {
+              "title": "Live Runnable SQL + Python Database Lab (CREATE, INSERT, GROUP BY, JOIN)",
+              "description": "Executes real SQL queries (GROUP BY, HAVING, Equi-Join, COUNT) inside Python and displays results!",
+              "code": "# CBSE Class 12 - Live SQL & Python DB-API 2.0 Execution\nimport sqlite3\n\n# Connect to an in-memory relational database\ncon = sqlite3.connect(\":memory:\")\ncur = con.cursor()\n\n# 1. DDL: Create DEPT and EMPLOYEE tables\ncur.execute(\"CREATE TABLE DEPT (DCODE TEXT PRIMARY KEY, DNAME TEXT, CITY TEXT)\")\ncur.execute(\"\"\"\nCREATE TABLE EMPLOYEE (\n    ENO INT PRIMARY KEY,\n    ENAME TEXT,\n    DCODE TEXT,\n    SALARY INT,\n    BONUS INT\n)\n\"\"\")\n\n# 2. DML: Insert sample CBSE Board table rows\ncur.executemany(\"INSERT INTO DEPT VALUES (?, ?, ?)\", [\n    (\"D01\", \"AI & Data\", \"Bengaluru\"),\n    (\"D02\", \"Cloud Infra\", \"Hyderabad\"),\n    (\"D03\", \"CyberSec\", \"Delhi\")\n])\n\ncur.executemany(\"INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?)\", [\n    (101, \"Aarav\", \"D01\", 85000, 10000),\n    (102, \"Diya\", \"D02\", 72000, None),\n    (103, \"Kabir\", \"D01\", 92000, 15000),\n    (104, \"Meera\", \"D03\", 88000, None),\n    (105, \"Rohan\", \"D01\", 79000, 8000)\n])\ncon.commit()\n\n# 3. Query 1: COUNT(*) vs COUNT(BONUS) (Notice NULL handling!)\ncur.execute(\"SELECT COUNT(*), COUNT(BONUS), AVG(SALARY) FROM EMPLOYEE\")\nprint(\"📌 Q1. COUNT(*) vs COUNT(BONUS) & AVG(SALARY):\")\nprint(\"  Result ->\", cur.fetchall())\n\n# 4. Query 2: GROUP BY with HAVING\nprint(\"\\n📌 Q2. Department-wise Employee Count & Max Salary (GROUP BY DCODE):\")\ncur.execute(\"SELECT DCODE, COUNT(*), MAX(SALARY) FROM EMPLOYEE GROUP BY DCODE\")\nfor row in cur.fetchall():\n    print(f\"  • Dept {row[0]} : Count={row[1]}, Max Salary=₹{row[2]}\")\n\n# 5. Query 3: Equi-Join between EMPLOYEE and DEPT\nprint(\"\\n📌 Q3. Equi-Join (Employee Name, Department Name, City):\")\ncur.execute(\"\"\"\nSELECT E.ENAME, D.DNAME, D.CITY, E.SALARY\nFROM EMPLOYEE E, DEPT D\nWHERE E.DCODE = D.DCODE AND E.SALARY >= 80000\nORDER BY E.SALARY DESC\n\"\"\")\nfor row in cur.fetchall():\n    print(f\"  • {row[0]:8} | {row[1]:12} | {row[2]:10} | ₹{row[3]}\")\n\ncon.close()\n"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "practicals": [
+    {
+      "id": "prac-101-text-hashes",
+      "programNumber": 1,
+      "classLevel": "class12",
+      "category": "Text File",
+      "title": "Read a text file line by line and display each word separated by a \"#\"",
+      "aim": "Official CBSE Class 12 Practical Program #1: Write a Python program to read a text file line by line and display each word separated by a \"#\" symbol.",
+      "algorithm": [
+        "Create/open the text file \"notes.txt\" in read mode (\"r\").",
+        "Iterate through each line in the file object.",
+        "Split the line into a list of words using line.split().",
+        "Join the words using \"#\".join(words) and print the formatted line."
+      ],
+      "code": "# CBSE Class 12 Practical #1: Display each word separated by '#'\nsample_text = \"\"\"Python is an interpreted high level language\nFile handling is very important for CBSE Practical\nPractice makes every student confident\"\"\"\n\nwith open(\"notes.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(sample_text)\n\nprint(\"--- Output of Words Separated by '#' ---\")\nwith open(\"notes.txt\", \"r\", encoding=\"utf-8\") as f:\n    for line in f:\n        words = line.split()\n        print(\"#\".join(words))\n",
+      "expectedOutput": "Python#is#an#interpreted#high#level#language\nFile#handling#is#very#important#for#CBSE#Practical",
+      "vivaTip": "Why use `line.split()` with no arguments instead of `line.split(\" \")`? Because `line.split()` automatically strips trailing `\\n` and handles multiple consecutive spaces cleanly!"
+    },
+    {
+      "id": "prac-102-vowels-consonants",
+      "programNumber": 2,
+      "classLevel": "class12",
+      "category": "Text File",
+      "title": "Count the number of vowels, consonants, uppercase, and lowercase characters in a text file",
+      "aim": "Official CBSE Class 12 Practical Program #2: Read a text file and display the count of vowels, consonants, uppercase, and lowercase letters.",
+      "algorithm": [
+        "Open the text file in read mode (\"r\") and read the entire string using f.read().",
+        "Initialize counters for vowels, consonants, upper, and lower to 0.",
+        "Iterate over each character ch in content.",
+        "Check ch.isupper(), ch.islower(), and if ch.isalpha(), check membership in \"aeiouAEIOU\"."
+      ],
+      "code": "# CBSE Class 12 Practical #2: Vowels, Consonants, Uppercase & Lowercase Counter\nwith open(\"article.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"CBSE Class 12 Computer Science Practical Exam 2026!\")\n\nvowels = consonants = upper = lower = 0\n\nwith open(\"article.txt\", \"r\", encoding=\"utf-8\") as f:\n    data = f.read()\n\nfor ch in data:\n    if ch.isalpha():\n        if ch.isupper():\n            upper += 1\n        elif ch.islower():\n            lower += 1\n\n        if ch.lower() in \"aeiou\":\n            vowels += 1\n        else:\n            consonants += 1\n\nprint(\"File Content :\", data)\nprint(f\"Vowels       : {vowels}\")\nprint(f\"Consonants   : {consonants}\")\nprint(f\"Uppercase    : {upper}\")\nprint(f\"Lowercase    : {lower}\")\n",
+      "expectedOutput": "Vowels: 13, Consonants: 24, Uppercase: 10, Lowercase: 27",
+      "vivaTip": "Always check `ch.isalpha()` before counting a character as a consonant, otherwise digits and punctuation marks would be counted as consonants!"
+    },
+    {
+      "id": "prac-103-remove-lines-with-a",
+      "programNumber": 3,
+      "classLevel": "class12",
+      "category": "Text File",
+      "title": "Remove all the lines that contain the character \"a\" in a file and write it to another file",
+      "aim": "Official CBSE Class 12 Practical Program #3: Filter lines containing \"a\" or \"A\" from source.txt into filtered.txt.",
+      "algorithm": [
+        "Read all lines from source.txt using readlines().",
+        "Separate lines into two lists: lines without \"a\"/\"A\" (stays in source.txt) and lines with \"a\"/\"A\" (written to target.txt).",
+        "Write the respective lists to both files and display their contents."
+      ],
+      "code": "# CBSE Class 12 Practical #3: Move lines containing 'a' to another file\ninitial_lines = [\n    \"Python is awesome\\n\",\n    \"Hello World\\n\",\n    \"Code every day\\n\",\n    \"Keep smiling\\n\",\n    \"Study hard for exams\\n\"\n]\n\nwith open(\"source.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.writelines(initial_lines)\n\nkeep_lines = []\nmoved_lines = []\n\nwith open(\"source.txt\", \"r\", encoding=\"utf-8\") as f:\n    for line in f:\n        if \"a\" in line.lower():\n            moved_lines.append(line)\n        else:\n            keep_lines.append(line)\n\nwith open(\"source.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.writelines(keep_lines)\n\nwith open(\"removed_a.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.writelines(moved_lines)\n\nprint(\"✅ Lines remaining in 'source.txt' (NO letter 'a'):\")\nprint(\"\".join(keep_lines))\nprint(\"✅ Lines written to 'removed_a.txt' (CONTAIN letter 'a'):\")\nprint(\"\".join(moved_lines))\n",
+      "expectedOutput": "Remaining: Hello World, Keep smiling | Moved: Python is awesome, Code every day, Study hard for exams",
+      "vivaTip": "Use `if \"a\" in line.lower():` so both lowercase `\"a\"` and uppercase `\"A\"` are matched."
+    },
+    {
+      "id": "prac-104-binary-search-update",
+      "programNumber": 4,
+      "classLevel": "class12",
+      "category": "Binary File",
+      "title": "Create a binary file with roll number, name, and marks; search and update marks by Roll No",
+      "aim": "Official CBSE Class 12 Practical Program #4 & #5: Create a binary file using pickle, search a given roll number, and update their marks.",
+      "algorithm": [
+        "Open \"marks.dat\" in \"wb\" mode and dump student dictionaries/lists using pickle.dump().",
+        "Prompt user for the Roll Number to search and the new marks.",
+        "Read all records from \"marks.dat\", update the matching record, and rewrite the updated records."
+      ],
+      "code": "# CBSE Class 12 Practical #4: Binary File Search & Update with pickle\nimport pickle\n\nrecords = [\n    {\"roll\": 1, \"name\": \"Aarav\", \"marks\": 82},\n    {\"roll\": 2, \"name\": \"Bhavya\", \"marks\": 91},\n    {\"roll\": 3, \"name\": \"Chirag\", \"marks\": 76}\n]\n\nwith open(\"marks.dat\", \"wb\") as f:\n    for r in records:\n        pickle.dump(r, f)\n\ntarget_roll = int(input(\"Enter Roll No to update marks (1, 2, or 3): \"))\nnew_marks = int(input(\"Enter new marks: \"))\n\nupdated_list = []\nfound = False\n\nwith open(\"marks.dat\", \"rb\") as f:\n    try:\n        while True:\n            rec = pickle.load(f)\n            if rec[\"roll\"] == target_roll:\n                rec[\"marks\"] = new_marks\n                found = True\n            updated_list.append(rec)\n    except EOFError:\n        pass\n\nif found:\n    with open(\"marks.dat\", \"wb\") as f:\n        for r in updated_list:\n            pickle.dump(r, f)\n    print(f\"\\n✅ Successfully updated Roll No {target_roll}!\")\nelse:\n    print(f\"\\n❌ Roll No {target_roll} not found.\")\n\nprint(\"\\n📋 Current Binary File Contents:\")\nwith open(\"marks.dat\", \"rb\") as f:\n    try:\n        while True:\n            print(\" \", pickle.load(f))\n    except EOFError:\n        pass\n",
+      "sampleInput": "2\n98\n",
+      "expectedOutput": "{'roll': 2, 'name': 'Bhavya', 'marks': 98}",
+      "vivaTip": "What exception tells us we have reached the end of a binary file when calling `pickle.load(f)`? Answer: `EOFError`."
+    },
+    {
+      "id": "prac-105-csv-user-pass",
+      "programNumber": 5,
+      "classLevel": "class12",
+      "category": "CSV File",
+      "title": "Create a CSV file by entering user-id and password, then read and search the password for given user-id",
+      "aim": "Official CBSE Class 12 Practical Program #6: Write user credentials to a CSV file and search for a user’s password by User-ID.",
+      "algorithm": [
+        "Open \"users.csv\" in write mode with newline=\"\" and create a csv.writer(f) object.",
+        "Write header [\"UserID\", \"Password\"] and user rows.",
+        "Open \"users.csv\" in read mode with csv.reader(f) and search for the requested UserID."
+      ],
+      "code": "# CBSE Class 12 Practical #5: CSV File User-ID & Password Search\nimport csv\n\nusers = [\n    [\"admin_cbse\", \"Board@2026\"],\n    [\"priya_12\", \"Python#100\"],\n    [\"rohan_cs\", \"Stack$LIFO\"]\n]\n\nwith open(\"users.csv\", \"w\", newline=\"\", encoding=\"utf-8\") as f:\n    writer = csv.writer(f)\n    writer.writerow([\"UserID\", \"Password\"])\n    writer.writerows(users)\n\nsearch_id = input(\"Enter UserID to find password (e.g. priya_12): \").strip()\n\nwith open(\"users.csv\", \"r\", encoding=\"utf-8\") as f:\n    reader = csv.reader(f)\n    next(reader)  # Skip header\n    for row in reader:\n        if row[0] == search_id:\n            print(f\"🔓 Found! Password for '{search_id}' is: {row[1]}\")\n            break\n    else:\n        print(f\"❌ UserID '{search_id}' not found in users.csv.\")\n",
+      "sampleInput": "priya_12\n",
+      "expectedOutput": "Found! Password for 'priya_12' is: Python#100",
+      "vivaTip": "Why do we specify `newline=\"\"` when opening a CSV file in Python on Windows? Without it, `csv.writer` writes `\\r\\r\\n`, creating an unwanted blank line after every row."
+    },
+    {
+      "id": "prac-106-stack-menu",
+      "programNumber": 6,
+      "classLevel": "class12",
+      "category": "Stack (DSA)",
+      "title": "Write a Python program to implement a Stack using a List (Push, Pop, Peek, Display)",
+      "aim": "Official CBSE Class 12 Practical Program #7: Menu-driven Stack implementation using a Python list.",
+      "algorithm": [
+        "Maintain a list `stack = []`.",
+        "Push appends an element to `stack`.",
+        "Pop checks `if not stack:` for Underflow, otherwise returns `stack.pop()`.",
+        "Display prints elements from `len(stack) - 1` down to `0` (Top to Bottom)."
+      ],
+      "code": "# CBSE Class 12 Practical #6: Interactive Stack Implementation (LIFO)\nstack = [10, 20, 30]\n\ndef display_stack(stk):\n    if not stk:\n        print(\"  [Stack is Empty]\")\n        return\n    print(\"  TOP ->\", stk[-1])\n    for i in range(len(stk) - 2, -1, -1):\n        print(\"        \", stk[i])\n\nprint(\"Initial Stack:\")\ndisplay_stack(stack)\n\nval = int(input(\"\\nEnter a number to PUSH onto stack: \"))\nstack.append(val)\nprint(f\"After PUSH({val}):\")\ndisplay_stack(stack)\n\npopped = stack.pop()\nprint(f\"\\nPOPPED element: {popped}\")\nprint(\"Stack after POP:\")\ndisplay_stack(stack)\n",
+      "sampleInput": "40\n",
+      "expectedOutput": "TOP -> 40, POPPED element: 40",
+      "vivaTip": "What is the time complexity of `append()` (Push) and `pop()` (Pop from end) on a Python list? Both are $O(1)$ amortized constant time!"
+    },
+    {
+      "id": "prac-107-palindrome-armstrong",
+      "programNumber": 7,
+      "classLevel": "class10",
+      "category": "Fundamentals",
+      "title": "Check whether a given number is an Armstrong number and a Palindrome",
+      "aim": "Official CBSE Class 10 Practical Program: Write a Python program to check if an input integer is a Palindrome and/or a 3-digit Armstrong number.",
+      "algorithm": [
+        "Read integer n from input().",
+        "Palindrome check: compare str(n) with its reverse str(n)[::-1].",
+        "Armstrong check: sum each digit raised to the power of total digits and compare with n."
+      ],
+      "code": "# CBSE Class 10 Practical: Palindrome & Armstrong Number Checker\nnum = int(input(\"Enter a positive integer (e.g. 153 or 121): \"))\ns = str(num)\npower = len(s)\n\nis_palindrome = (s == s[::-1])\narmstrong_sum = sum(int(digit) ** power for digit in s)\nis_armstrong = (armstrong_sum == num)\n\nprint(f\"\\nNumber Analyzed : {num}\")\nprint(f\"Is Palindrome?  : {'✅ Yes' if is_palindrome else '❌ No'} (Reversed: {s[::-1]})\")\nprint(f\"Is Armstrong?   : {'✅ Yes' if is_armstrong else '❌ No'} (Digit power sum: {armstrong_sum})\")\n",
+      "sampleInput": "153\n",
+      "expectedOutput": "Is Armstrong? Yes (Digit power sum: 153)",
+      "vivaTip": "153 is an Armstrong number because $1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153$. Other 3-digit Armstrong numbers are 370, 371, and 407."
+    }
+  ],
+  "examQuestions": [
+    {
+      "id": "q1-c12-tokens",
+      "classLevel": "class12",
+      "chapterId": "c12-ch1-revision-tour",
+      "questionType": "mcq",
+      "question": "Which of the following is an INVALID identifier in Python?",
+      "options": [
+        "_CBSE_2026",
+        "Total_Marks1",
+        "true",
+        "None"
+      ],
+      "correctIndex": 3,
+      "explanation": "`None` (with a capital N) is a reserved Python keyword and cannot be used as an identifier. Note that `true` (lowercase) is NOT a keyword (`True` is), so `true` is technically a valid identifier.",
+      "marks": 1
+    },
+    {
+      "id": "q2-c12-operators",
+      "classLevel": "class12",
+      "chapterId": "c12-ch1-revision-tour",
+      "questionType": "mcq",
+      "question": "What will be the output of the following Python expression?",
+      "codeSnippet": "print(16 // 3 ** 2 + 4 % 3)",
+      "options": [
+        "2",
+        "5",
+        "1.77",
+        "3"
+      ],
+      "correctIndex": 0,
+      "explanation": "Step 1: Exponentiation `3 ** 2` = `9`. Step 2: Floor division `16 // 9` = `1` and modulo `4 % 3` = `1`. Step 3: `1 + 1` = `2`.",
+      "marks": 1
+    },
+    {
+      "id": "q3-c12-string-partition",
+      "classLevel": "class12",
+      "chapterId": "c12-ch1-revision-tour",
+      "questionType": "mcq",
+      "question": "What is the output of `\"PYTHON-PROGRAMMING\".partition(\"-\")`?",
+      "options": [
+        "[\"PYTHON\", \"PROGRAMMING\"]",
+        "(\"PYTHON\", \"-\", \"PROGRAMMING\")",
+        "[\"PYTHON\", \"-\", \"PROGRAMMING\"]",
+        "(\"PYTHON\", \"PROGRAMMING\")"
+      ],
+      "correctIndex": 1,
+      "explanation": "`.partition(sep)` ALWAYS returns a 3-element tuple `(head, sep, tail)` containing the substring before the separator, the separator itself, and the substring after it.",
+      "marks": 1
+    },
+    {
+      "id": "q4-c12-files-readlines",
+      "classLevel": "class12",
+      "chapterId": "c12-ch4-text-files",
+      "questionType": "mcq",
+      "question": "If `f` is a text file object opened in read mode, what is the data type returned by `f.readlines()`?",
+      "options": [
+        "str",
+        "tuple",
+        "list",
+        "dict"
+      ],
+      "correctIndex": 2,
+      "explanation": "`f.readlines()` reads all remaining lines from the file and returns them as a `list` of strings (`list[str]`), whereas `f.read()` and `f.readline()` return a `str`.",
+      "marks": 1
+    },
+    {
+      "id": "q5-c12-binary-pickle",
+      "classLevel": "class12",
+      "chapterId": "c12-ch5-binary-csv",
+      "questionType": "mcq",
+      "question": "Which exception is raised by `pickle.load(f)` when it reaches the end of a binary file?",
+      "options": [
+        "FileNotFoundError",
+        "IOError",
+        "EOFError",
+        "StopIteration"
+      ],
+      "correctIndex": 2,
+      "explanation": "When `pickle.load(f)` reaches the end of a binary file and no more serialized objects remain, Python raises `EOFError`.",
+      "marks": 1
+    },
+    {
+      "id": "q6-c12-sql-degree",
+      "classLevel": "class12",
+      "chapterId": "c12-ch8-sql-dbms",
+      "questionType": "mcq",
+      "question": "Table `STUDENT` has 5 columns and 10 rows. Table `SPORTS` has 3 columns and 6 rows. What will be the Degree and Cardinality of their Cartesian Product (`SELECT * FROM STUDENT, SPORTS`)?",
+      "options": [
+        "Degree = 8, Cardinality = 60",
+        "Degree = 15, Cardinality = 16",
+        "Degree = 60, Cardinality = 8",
+        "Degree = 8, Cardinality = 16"
+      ],
+      "correctIndex": 0,
+      "explanation": "In a Cartesian Product, Degrees (columns) are ADDED (`5 + 3 = 8`) and Cardinalities (rows) are MULTIPLIED (`10 * 6 = 60`).",
+      "marks": 1
+    },
+    {
+      "id": "q7-c12-ar-csv",
+      "classLevel": "class12",
+      "chapterId": "c12-ch5-binary-csv",
+      "questionType": "assertion-reason",
+      "question": "Assertion (A): While opening a CSV file for writing in Python on Windows, we pass `newline=\"\"` in the `open()` function.\nReason (R): `newline=\"\"` prevents extra blank lines from being inserted between rows in the CSV file.",
+      "options": [
+        "Both A and R are True and R is the correct explanation for A",
+        "Both A and R are True but R is NOT the correct explanation for A",
+        "A is True but R is False",
+        "A is False but R is True"
+      ],
+      "correctIndex": 0,
+      "explanation": "Both Assertion and Reason are true, and R directly explains why `newline=\"\"` is passed to `open()` when working with the `csv` module.",
+      "marks": 1
+    },
+    {
+      "id": "q8-c12-ar-functions",
+      "classLevel": "class12",
+      "chapterId": "c12-ch2-functions",
+      "questionType": "assertion-reason",
+      "question": "Assertion (A): A function definition `def compute(a=10, b, c=20):` is valid in Python.\nReason (R): In a Python function header, default parameters must always appear after non-default positional parameters.",
+      "options": [
+        "Both A and R are True and R is the correct explanation for A",
+        "Both A and R are True but R is NOT the correct explanation for A",
+        "A is True but R is False",
+        "A is False but R is True"
+      ],
+      "correctIndex": 3,
+      "explanation": "Assertion (A) is False (`def compute(a=10, b, c=20):` raises `SyntaxError: non-default argument follows default argument`), while Reason (R) is True!",
+      "marks": 1
+    },
+    {
+      "id": "q9-c10-lists",
+      "classLevel": "class10",
+      "chapterId": "c10-ch3-lists-strings",
+      "questionType": "mcq",
+      "question": "What is the output of the following Class 10 Python code?",
+      "codeSnippet": "L = [10, 20, 30]\nL.append([40, 50])\nprint(len(L))",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "Error"
+      ],
+      "correctIndex": 1,
+      "explanation": "`L.append([40, 50])` adds the entire list `[40, 50]` as a single nested element at index 3: `[10, 20, 30, [40, 50]]`. Hence `len(L)` is `4`.",
+      "marks": 1
+    },
+    {
+      "id": "q10-c10-loops",
+      "classLevel": "class10",
+      "chapterId": "c10-ch2-control-flow",
+      "questionType": "mcq",
+      "question": "How many times will the word `\"CBSE\"` be printed by the following loop?",
+      "codeSnippet": "for i in range(10, 2, -3):\n    print(\"CBSE\")",
+      "options": [
+        "2 times",
+        "3 times",
+        "4 times",
+        "0 times"
+      ],
+      "correctIndex": 1,
+      "explanation": "`range(10, 2, -3)` generates `10, 7, 4` (stops before `2`). Therefore, the loop runs `3` times.",
+      "marks": 1
+    }
+  ],
+  "outputChallenges": [
+    {
+      "id": "out-1-string-transform",
+      "classLevel": "class12",
+      "topic": "Strings & Loops (CBSE 2-Mark Output Prediction)",
+      "mode": "find-output",
+      "title": "Predict the Output: String Character Manipulation",
+      "prompt": "Carefully trace the loop and predict the exact single-line string printed by this CBSE Board question:",
+      "code": "s = \"CbSe@2026\"\nres = \"\"\nfor i in range(len(s)):\n    if s[i].isupper():\n        res += s[i].lower()\n    elif s[i].islower():\n        res += s[i + 1]\n    elif s[i].isdigit():\n        res += \"*\"\n    else:\n        res += \"#\"\nprint(res)",
+      "runnableCode": "s = \"CbSe@2026\"\nres = \"\"\nfor i in range(len(s)):\n    if s[i].isupper():\n        res += s[i].lower()\n    elif s[i].islower():\n        res += s[i + 1]\n    elif s[i].isdigit():\n        res += \"*\"\n    else:\n        res += \"#\"\nprint(res)",
+      "expectedAnswer": "cSs@#****",
+      "stepByStepTrace": [
+        "i=0: s[0]=\"C\" (isupper) -> appends \"c\"",
+        "i=1: s[1]=\"b\" (islower) -> appends s[2] which is \"S\"",
+        "i=2: s[2]=\"S\" (isupper) -> appends \"s\"",
+        "i=3: s[3]=\"e\" (islower) -> appends s[4] which is \"@\"",
+        "i=4: s[4]=\"@\" (else)    -> appends \"#\"",
+        "i=5..8: \"2\",\"0\",\"2\",\"6\" (isdigit) -> appends \"****\"",
+        "Final Output: cSs@#****"
+      ],
+      "marks": 2
+    },
+    {
+      "id": "out-2-global-scope",
+      "classLevel": "class12",
+      "topic": "Functions, Default Args & Global Scope (CBSE 3-Mark)",
+      "mode": "find-output",
+      "title": "Predict the Output: Global vs Local Variable Tracing",
+      "prompt": "Predict the exact output lines produced when `fun()` is called twice:",
+      "code": "x = 100\ndef fun(a, b=20):\n    global x\n    x = x + a - b\n    a = a + b\n    print(f\"{a}#{x}\")\n\nfun(30)\nfun(15, 5)",
+      "runnableCode": "x = 100\ndef fun(a, b=20):\n    global x\n    x = x + a - b\n    a = a + b\n    print(f\"{a}#{x}\")\n\nfun(30)\nfun(15, 5)",
+      "expectedAnswer": "50#110\n20#120",
+      "stepByStepTrace": [
+        "Call 1: fun(30) -> a=30, b=20 (default). global x becomes 100 + 30 - 20 = 110. Local a becomes 30 + 20 = 50. Prints: 50#110",
+        "Call 2: fun(15, 5) -> a=15, b=5. global x becomes 110 + 15 - 5 = 120. Local a becomes 15 + 5 = 20. Prints: 20#120"
+      ],
+      "marks": 3
+    },
+    {
+      "id": "out-3-spot-error",
+      "classLevel": "class12",
+      "topic": "Spot the Syntax Errors (CBSE 2-Mark Error Correction)",
+      "mode": "spot-error",
+      "title": "Spot & Fix 4 Errors in the Following Python Code",
+      "prompt": "The following code has 4 syntax/runtime errors. Identify the corrected version and test it in the IDE:",
+      "code": "# Broken CBSE Question Snippet:\nDef calc_sum(n = 10, m)     # Error 1 & 2\n    total = 0\n    for i in range(1, m + 1) # Error 3\n        if i % 2 = 0:        # Error 4\n            total += i\n    return total",
+      "runnableCode": "# Corrected Version:\ndef calc_sum(m, n=10):       # Fix 1: 'def' lowercase, non-default 'm' first, colon ':'\n    total = 0\n    for i in range(1, m + 1): # Fix 2: Colon ':' at end of for statement\n        if i % 2 == 0:        # Fix 3: '==' for equality comparison instead of '='\n            total += i\n    return total + n\n\nprint(\"Result:\", calc_sum(6))",
+      "expectedAnswer": "Result: 22",
+      "stepByStepTrace": [
+        "Fix 1: Keyword `def` must be lowercase (not `Def`).",
+        "Fix 2: Non-default parameter `m` must come before default parameter `n=10`, and the function header must end with a colon `:`.",
+        "Fix 3: The `for` loop header must end with a colon `:`.",
+        "Fix 4: Equality comparison inside `if` must use `==` instead of assignment `=`."
+      ],
+      "marks": 2
+    }
+  ],
+  "vivaCards": [
+    {
+      "id": "viva-1",
+      "classLevel": "class12",
+      "category": "File Handling",
+      "question": "What is the difference between `r+` and `w+` file modes in Python?",
+      "answer": "Both `r+` and `w+` allow reading and writing. However, `r+` raises `FileNotFoundError` if the file does not exist and preserves existing content, whereas `w+` creates a new file if it does not exist and overwrites (truncates) existing content immediately!"
+    },
+    {
+      "id": "viva-2",
+      "classLevel": "class12",
+      "category": "Binary Files",
+      "question": "What are Pickling and Unpickling in Python?",
+      "answer": "**Pickling** (Serialization) is the process of converting a Python object hierarchy (like a list or dict) into a byte stream using `pickle.dump()`. **Unpickling** (Deserialization) is the inverse process of reconstructing the Python object from the byte stream using `pickle.load()`."
+    },
+    {
+      "id": "viva-3",
+      "classLevel": "class12",
+      "category": "Data Structures (Stack)",
+      "question": "Why does `stack.append()` and `stack.pop()` represent a LIFO data structure?",
+      "answer": "Both `.append()` and `.pop()` operate at the same end (the top/tail) of the Python list in $O(1)$ time, ensuring that the **Last** item inserted is the **First** item removed (Last-In, First-Out)."
+    },
+    {
+      "id": "viva-4",
+      "classLevel": "class12",
+      "category": "SQL & DBMS",
+      "question": "Differentiate between `CHAR(n)` and `VARCHAR(n)` in SQL.",
+      "answer": "`CHAR(n)` is a **fixed-length** string datatype (pads shorter strings with trailing spaces up to length `n`), whereas `VARCHAR(n)` is a **variable-length** string datatype (uses only the exact number of bytes needed for the stored characters)."
+    },
+    {
+      "id": "viva-5",
+      "classLevel": "class12",
+      "category": "SQL & DBMS",
+      "question": "What is the difference between Candidate Key, Primary Key, and Alternate Key?",
+      "answer": "- **Candidate Keys**: All attributes capable of uniquely identifying tuples in a table.\n- **Primary Key**: The one Candidate Key chosen by the database designer to uniquely identify rows (cannot be `NULL`).\n- **Alternate Keys**: Remaining Candidate Keys that were not chosen as the Primary Key ($\text{Alternate Keys} = \text{Candidate Keys} - \text{Primary Key}$)."
+    },
+    {
+      "id": "viva-6",
+      "classLevel": "class10",
+      "category": "Python Lists",
+      "question": "What is the difference between `list.pop()` and `list.remove()`?",
+      "answer": "`list.pop(index)` deletes an element by its **index** and returns the deleted value (defaults to `-1`). `list.remove(value)` deletes the first occurrence of a matching **value** and returns `None`."
+    }
+  ],
+  "ideTemplates": [
+    {
+      "id": "tpl-marks-calc",
+      "name": "Interactive Student Marks & Grade Calculator",
+      "code": "# CBSE Interactive Marks & Grade Calculator\nname = input(\"Enter Student Name: \")\ns1 = float(input(\"Enter Computer Science Marks (out of 100): \"))\ns2 = float(input(\"Enter Mathematics Marks (out of 100): \"))\ns3 = float(input(\"Enter Physics Marks (out of 100): \"))\n\navg = (s1 + s2 + s3) / 3\nif avg >= 90:\n    grade = \"A1 (Merit Certificate)\"\nelif avg >= 80:\n    grade = \"A2\"\nelif avg >= 70:\n    grade = \"B1\"\nelse:\n    grade = \"B2\"\n\nprint(f\"\\nReport Card for {name}:\")\nprint(f\"  • Average Percentage : {avg:.2f}%\")\nprint(f\"  • CBSE Grade         : {grade}\")\n"
+    },
+    {
+      "id": "tpl-text-file",
+      "name": "Class 12 Text File (.txt) Line & Word Analyzer",
+      "code": "# CBSE Class 12 Text File Handling Demo\nwith open(\"poem.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"Twinkle twinkle little star\\n\")\n    f.write(\"How I wonder what you are\\n\")\n    f.write(\"Above the world so high\\n\")\n    f.write(\"Like a diamond in the sky\\n\")\n\nwith open(\"poem.txt\", \"r\", encoding=\"utf-8\") as f:\n    text = f.read()\n    f.seek(0)\n    lines = f.readlines()\n\nwords = text.split()\nprint(\"Total Lines:\", len(lines))\nprint(\"Total Words:\", len(words))\nprint(\"Words starting with vowel:\", [w for w in words if w[0].lower() in \"aeiou\"])\n"
+    },
+    {
+      "id": "tpl-binary-pickle",
+      "name": "Class 12 Binary File (pickle) Write & Search",
+      "code": "import pickle\n\nwith open(\"items.dat\", \"wb\") as f:\n    pickle.dump([101, \"Mechanical Keyboard\", 3200], f)\n    pickle.dump([102, \"Wireless Mouse\", 850], f)\n    pickle.dump([103, \"27-inch Monitor\", 14500], f)\n\nmin_price = float(input(\"Enter minimum price to filter items (e.g. 1000): \"))\nprint(f\"\\nItems costing >= ₹{min_price}:\")\n\nwith open(\"items.dat\", \"rb\") as f:\n    try:\n        while True:\n            item = pickle.load(f)\n            if item[2] >= min_price:\n                print(f\"  • ID: {item[0]} | {item[1]} — ₹{item[2]}\")\n    except EOFError:\n        pass\n"
+    },
+    {
+      "id": "tpl-stack-lifo",
+      "name": "Class 12 Stack Push & Pop (LIFO)",
+      "code": "# CBSE Class 12 Stack Implementation using List\nstack = []\n\ndef push_even(stk, numbers):\n    for n in numbers:\n        if n % 2 == 0:\n            stk.append(n)\n            print(f\"PUSH -> {n}\")\n\ndef pop_all(stk):\n    print(\"\\nPopping all elements (LIFO):\")\n    while stk:\n        print(\"POP  <-\", stk.pop())\n    print(\"Stack Empty (Underflow)\")\n\nnums = [12, 7, 19, 24, 36, 41, 50]\npush_even(stack, nums)\npop_all(stack)\n"
+    },
+    {
+      "id": "tpl-sql-sqlite",
+      "name": "Class 12 SQL + Python Connectivity Lab",
+      "code": "import sqlite3\n\ncon = sqlite3.connect(\":memory:\")\ncur = con.cursor()\ncur.execute(\"CREATE TABLE STUDENT (ROLL INT PRIMARY KEY, NAME TEXT, STREAM TEXT, MARKS INT)\")\ncur.executemany(\"INSERT INTO STUDENT VALUES (?, ?, ?, ?)\", [\n    (1, \"Aarav\", \"Science\", 95),\n    (2, \"Diya\", \"Commerce\", 89),\n    (3, \"Kabir\", \"Science\", 92),\n    (4, \"Meera\", \"Humanities\", 96)\n])\ncon.commit()\n\ncur.execute(\"SELECT STREAM, COUNT(*), AVG(MARKS) FROM STUDENT GROUP BY STREAM\")\nprint(\"Stream-wise Summary (GROUP BY):\")\nfor stream, count, avg_m in cur.fetchall():\n    print(f\"  • {stream:12} | Count: {count} | Avg Marks: {avg_m:.1f}\")\ncon.close()\n"
+    }
+  ],
+  "cheatSheet": {
+    "fileModes": [
+      {
+        "textMode": "'r'",
+        "binaryMode": "'rb'",
+        "description": "Read only (default). Pointer at start. Raises FileNotFoundError if file does not exist."
+      },
+      {
+        "textMode": "'w'",
+        "binaryMode": "'wb'",
+        "description": "Write only. Overwrites (truncates) existing file or creates a new file."
+      },
+      {
+        "textMode": "'a'",
+        "binaryMode": "'ab'",
+        "description": "Append only. Pointer at end of file (EOF). Creates new file if missing."
+      },
+      {
+        "textMode": "'r+'",
+        "binaryMode": "'rb+'",
+        "description": "Read & Write. Pointer at start of file. Raises error if file is missing."
+      },
+      {
+        "textMode": "'w+'",
+        "binaryMode": "'wb+'",
+        "description": "Write & Read. Overwrites existing file or creates a new file."
+      },
+      {
+        "textMode": "'a+'",
+        "binaryMode": "'ab+'",
+        "description": "Append & Read. Pointer at EOF for writing; creates file if missing."
+      }
+    ],
+    "sqlRules": [
+      {
+        "topic": "COUNT(*) vs COUNT(col)",
+        "rule": "COUNT(*) counts all rows including NULLs; COUNT(col) ignores NULL values in that column."
+      },
+      {
+        "topic": "WHERE vs HAVING",
+        "rule": "WHERE filters individual rows before GROUP BY; HAVING filters grouped rows after GROUP BY and supports aggregate functions."
+      },
+      {
+        "topic": "NULL Comparison",
+        "rule": "Always use IS NULL or IS NOT NULL in WHERE clauses (never use = NULL)."
+      },
+      {
+        "topic": "Cartesian Product (CROSS JOIN)",
+        "rule": "Degree = D1 + D2 (sum of columns); Cardinality = C1 * C2 (product of rows)."
+      },
+      {
+        "topic": "CHAR(n) vs VARCHAR(n)",
+        "rule": "CHAR(n) is fixed-length (padded with spaces); VARCHAR(n) is variable-length up to n bytes."
+      },
+      {
+        "topic": "Equi-Join vs Natural Join",
+        "rule": "Equi-Join matches columns using '=' (common column appears twice in SELECT *); Natural Join removes the duplicate common column."
+      }
+    ],
+    "blueprint": [
+      {
+        "unit": "Unit I",
+        "topics": "Computational Thinking & Programming - 2 (Revision Tour, Functions, Exceptions, Text/Binary/CSV Files, Stack)",
+        "marks": "40M",
+        "route": "/class12"
+      },
+      {
+        "unit": "Unit II",
+        "topics": "Computer Networks (Topologies, Devices, Protocols & 5-Mark Campus Layout Case Study)",
+        "marks": "10M",
+        "route": "/class12",
+        "chapterId": "c12-ch7-networks"
+      },
+      {
+        "unit": "Unit III",
+        "topics": "Database Management (RDBMS Keys, SQL Queries, GROUP BY, Joins & Python-DB Connectivity)",
+        "marks": "20M",
+        "route": "/class12",
+        "chapterId": "c12-ch8-sql-dbms"
+      },
+      {
+        "unit": "Practical",
+        "topics": "Lab Exam (Python + SQL), Practical Report File, Project & Viva Voce",
+        "marks": "30M",
+        "route": "/practical-lab"
+      }
+    ]
+  }
+}
