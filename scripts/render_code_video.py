@@ -10,6 +10,7 @@ import os
 import io
 import json
 import argparse
+import builtins
 import numpy as np
 import imageio
 from PIL import Image, ImageDraw, ImageFont
@@ -19,6 +20,21 @@ def trace_execution(code: str, max_steps: int = 50):
     steps = []
     stdout_capture = io.StringIO()
     old_stdout = sys.stdout
+    old_input = builtins.input
+
+    # Simulated inputs for dry run / video generation (avoids hanging on input())
+    sample_inputs = ["Aarav", "12", "85", "92", "78", "10", "20", "30", "50", "100"]
+    input_call_count = 0
+
+    def mock_input(prompt=""):
+        nonlocal input_call_count
+        val = sample_inputs[input_call_count % len(sample_inputs)]
+        input_call_count += 1
+        # Echo the prompt and simulated response so it appears in the video console
+        sys.stdout.write(f"{prompt}{val}\n")
+        return val
+
+    builtins.input = mock_input
 
     trace_locals = {}
     prev_vars = {}
@@ -77,6 +93,7 @@ def trace_execution(code: str, max_steps: int = 50):
     finally:
         sys.settrace(None)
         sys.stdout = old_stdout
+        builtins.input = old_input
 
     # Fallback if no steps captured
     if not steps:
