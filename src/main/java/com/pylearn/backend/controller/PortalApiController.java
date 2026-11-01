@@ -43,11 +43,15 @@ public class PortalApiController {
 
     @GetMapping("/navigation/menu")
     public ResponseEntity<List<Map<String, Object>>> getNavigationMenu(
+            @RequestParam(required = false) String role,
             @RequestHeader(value = "Authorization", required = false) String authHeader
     ) {
-        AuthUserService.AppUser user = authUserService.resolveToken(authHeader);
-        String role = user != null ? user.role() : "GUEST";
-        return ResponseEntity.ok(catalogService.getNavigationMenuForRole(role));
+        String effectiveRole = role;
+        if (effectiveRole == null || effectiveRole.isBlank()) {
+            AuthUserService.AppUser user = authUserService.resolveToken(authHeader);
+            effectiveRole = user != null ? user.role() : "STUDENT";
+        }
+        return ResponseEntity.ok(catalogService.getNavigationMenuForRole(effectiveRole));
     }
 
     @GetMapping("/health")

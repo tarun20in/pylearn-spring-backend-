@@ -159,168 +159,70 @@ public class CatalogService {
      * catalog based on the user's authentication state (GUEST, STUDENT, TEACHER, ADMIN).
      */
     public synchronized List<Map<String, Object>> getNavigationMenuForRole(String role) {
-        boolean isGuest = role == null || role.isBlank() || "GUEST".equalsIgnoreCase(role);
-        boolean isTeacherOrAdmin = "TEACHER".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role);
-        List<Map<String, Object>> sections = new ArrayList<>();
+        String cleanRole = (role == null || role.isBlank()) ? "STUDENT" : role.toUpperCase().trim();
+        List<Map<String, Object>> items = new ArrayList<>();
 
-        List<Map<String, Object>> ideChildren = new ArrayList<>();
-        ideChildren.add(Map.of("id", "ide-active", "label", "Active Workspace", "route", "/ide"));
-        List<Map<String, Object>> templates = getIdeTemplates();
-        for (int i = 0; i < templates.size(); i++) {
-            Map<String, Object> tpl = templates.get(i);
-            ideChildren.add(Map.of(
-                    "id", "ide-tpl-" + i,
-                    "label", String.valueOf(tpl.getOrDefault("name", "Template")),
-                    "route", "/ide",
-                    "templateIndex", i
-            ));
+        if ("ADMIN".equals(cleanRole)) {
+            // ADMIN MENU: Full CMS, System Analytics, Master Curriculum, All Labs, Python Engine
+            items.add(createMenuItem("dashboard", "Admin Command Center", "Admin", "/dashboard", "⚡", "Admin", null, false));
+            items.add(createMenuItem("admin-studio", "Master Content Studio", "Studio", "/admin-studio", "🎨", "CRUD", null, false));
+            items.add(createMenuItem("learn", "Curriculum Manager", "Curric", "/learn", "📖", null, null, false));
+            items.add(createMenuItem("practical-lab", "Practical Lab Bank", "Labs", "/practical-lab", "🧪", null, null, false));
+            items.add(createMenuItem("ide", "Python Engine (WS)", "IDE", "/ide", "💻", "Live", null, false));
+            items.add(createMenuItem("exam-prep", "System Analytics", "Metrics", "/exam-prep", "📈", null, null, false));
+            items.add(createMenuItem("cheatsheet", "CBSE Blueprint & Notes", "CBSE", "/cheatsheet", "📚", null, null, true));
+            items.add(createMenuItem("help", "System Health & Config", "Health", "/cheatsheet", "⚙️", null, null, false));
+        } else if ("TEACHER".equals(cleanRole)) {
+            // TEACHER MENU: Overview, Curriculum & Question Studio, Lessons Review, Student Reports
+            items.add(createMenuItem("dashboard", "Teacher Overview", "Dash", "/dashboard", "📊", "Teacher", null, false));
+            items.add(createMenuItem("admin-studio", "Curriculum Studio", "Studio", "/admin-studio", "🎨", "Manage", null, false));
+            items.add(createMenuItem("learn", "CBSE Lessons Review", "Lessons", "/learn", "📖", null, null, false));
+            items.add(createMenuItem("practical-lab", "Practicals & Assignments", "Lab", "/practical-lab", "🧪", null, null, false));
+            items.add(createMenuItem("ide", "Teacher Python Sandbox", "IDE", "/ide", "💻", null, null, false));
+            items.add(createMenuItem("exam-prep", "Student Progress & Reports", "Reports", "/exam-prep", "📈", null, null, false));
+            items.add(createMenuItem("cheatsheet", "Syllabus Notes & Blueprint", "CBSE", "/cheatsheet", "📚", null, null, true));
+            items.add(createMenuItem("help", "Teacher Guides & Support", "Help", "/cheatsheet", "❓", null, null, false));
+        } else {
+            // STUDENT MENU: Focused on Learning, Practice Lab, Running Python, Progress, Resources
+            items.add(createMenuItem("dashboard", "Dashboard", "Dash", "/dashboard", "📊", null, null, false));
+            items.add(createMenuItem("learn", "Learn Python", "Learn", "/learn", "📖", null, null, false));
+            items.add(createMenuItem("practical-lab", "Practice Lab", "Lab", "/practical-lab", "🧪", null, null, false));
+            items.add(createMenuItem("ide", "Python IDE", "IDE", "/ide", "💻", null, null, false));
+            items.add(createMenuItem("exam-prep", "My Progress", "Progress", "/exam-prep", "📈", null, null, false));
+            items.add(createMenuItem("cheatsheet", "CBSE Resources", "CBSE", "/cheatsheet", "📚", null, null, true));
+            items.add(createMenuItem("leaderboard", "Leaderboard", "Ranks", "/exam-prep", "🏆", null, null, false));
+            items.add(createMenuItem("help", "Help & Support", "Help", "/cheatsheet", "❓", null, null, false));
         }
 
-        Map<String, Object> welcomeItem = new LinkedHashMap<>();
-        welcomeItem.put("id", "welcome");
-        welcomeItem.put("label", "Welcome");
-        welcomeItem.put("route", "/welcome");
-        welcomeItem.put("icon", "home");
+        return items;
+    }
 
-        Map<String, Object> ideItem = new LinkedHashMap<>();
-        ideItem.put("id", "ide");
-        ideItem.put("label", "Python IDE");
-        ideItem.put("route", "/ide");
-        ideItem.put("icon", "terminal");
-        ideItem.put("badge", "WS");
-        ideItem.put("badgeType", "live");
-        ideItem.put("defaultExpanded", false);
-        ideItem.put("children", ideChildren);
-
-        // Unauthenticated Guest Menu: Only Welcome + Python IDE (Available without login)
-        if (isGuest) {
-            sections.add(Map.of(
-                    "sectionTitle", "Public Workspace",
-                    "items", List.of(welcomeItem, ideItem)
-            ));
-            return sections;
+    private Map<String, Object> createMenuItem(
+            String id,
+            String label,
+            String miniLabel,
+            String route,
+            String icon,
+            String badge,
+            Map<String, String> queryParams,
+            boolean dividerBefore
+    ) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("id", id);
+        map.put("label", label);
+        map.put("miniLabel", miniLabel != null ? miniLabel : label);
+        map.put("route", route);
+        map.put("icon", icon);
+        if (badge != null && !badge.isBlank()) {
+            map.put("badge", badge);
         }
-
-        // 1. Teacher / Admin CMS Section (Only returned when role is TEACHER or ADMIN)
-        if (isTeacherOrAdmin) {
-            Map<String, Object> cmsItem = new LinkedHashMap<>();
-            cmsItem.put("id", "admin-studio");
-            cmsItem.put("label", "Content Creator");
-            cmsItem.put("route", "/admin-studio");
-            cmsItem.put("icon", "edit");
-            cmsItem.put("badge", role.toUpperCase());
-            cmsItem.put("badgeType", "live");
-            cmsItem.put("defaultExpanded", true);
-            cmsItem.put("children", List.of(
-                    Map.of("id", "cms-exams", "label", "Mock Exam Creator", "route", "/admin-studio", "queryParams", Map.of("tab", "exams")),
-                    Map.of("id", "cms-curriculum", "label", "CBSE Curriculum Builder", "route", "/admin-studio", "queryParams", Map.of("tab", "curriculum")),
-                    Map.of("id", "cms-practicals", "label", "Practical Lab Creator", "route", "/admin-studio", "queryParams", Map.of("tab", "practicals"))
-            ));
-
-            sections.add(Map.of(
-                    "sectionTitle", "Teacher & Admin CMS",
-                    "items", List.of(cmsItem)
-            ));
+        if (queryParams != null && !queryParams.isEmpty()) {
+            map.put("queryParams", queryParams);
         }
-
-        // 2. Workspace Section
-        Map<String, Object> dashboardItem = new LinkedHashMap<>();
-        dashboardItem.put("id", "dashboard");
-        dashboardItem.put("label", "Overview");
-        dashboardItem.put("route", "/dashboard");
-        dashboardItem.put("icon", "grid");
-
-        sections.add(Map.of(
-                "sectionTitle", "Workspace",
-                "items", List.of(welcomeItem, dashboardItem, ideItem)
-        ));
-
-        // 3. CBSE Curriculum Section (Populated from server chapters & practical categories)
-        List<Map<String, Object>> class10Children = getChapters("class10").stream()
-                .map(ch -> Map.<String, Object>of(
-                        "id", String.valueOf(ch.get("id")),
-                        "chapterId", String.valueOf(ch.get("id")),
-                        "label", "Ch " + ch.get("chapterNumber") + ": " + ch.get("title"),
-                        "route", "/class10/" + ch.get("id")
-                ))
-                .toList();
-
-        Map<String, Object> class10Item = new LinkedHashMap<>();
-        class10Item.put("id", "class10");
-        class10Item.put("label", "Class 10 Syllabus");
-        class10Item.put("route", "/class10");
-        class10Item.put("icon", "book");
-        class10Item.put("progressMetric", "class10");
-        class10Item.put("defaultExpanded", true);
-        class10Item.put("children", class10Children);
-
-        List<Map<String, Object>> class12Children = getChapters("class12").stream()
-                .map(ch -> Map.<String, Object>of(
-                        "id", String.valueOf(ch.get("id")),
-                        "chapterId", String.valueOf(ch.get("id")),
-                        "label", "Ch " + ch.get("chapterNumber") + ": " + ch.get("title"),
-                        "route", "/class12/" + ch.get("id")
-                ))
-                .toList();
-
-        Map<String, Object> class12Item = new LinkedHashMap<>();
-        class12Item.put("id", "class12");
-        class12Item.put("label", "Class 12 Syllabus");
-        class12Item.put("route", "/class12");
-        class12Item.put("icon", "book-open");
-        class12Item.put("progressMetric", "class12");
-        class12Item.put("defaultExpanded", true);
-        class12Item.put("children", class12Children);
-
-        List<String> categories = List.of("All", "Text File", "Binary File", "CSV File", "Stack (DSA)", "Fundamentals");
-        List<Map<String, Object>> pracChildren = categories.stream()
-                .map(cat -> Map.<String, Object>of(
-                        "id", "prac-cat-" + cat,
-                        "label", "All".equals(cat) ? "All Practical Programs" : cat + " Programs",
-                        "route", "/practical-lab",
-                        "queryParams", Map.of("category", cat)
-                ))
-                .toList();
-
-        Map<String, Object> practicalItem = new LinkedHashMap<>();
-        practicalItem.put("id", "practical-lab");
-        practicalItem.put("label", "Practical Lab (30M)");
-        practicalItem.put("route", "/practical-lab");
-        practicalItem.put("icon", "flask");
-        practicalItem.put("progressMetric", "practicals");
-        practicalItem.put("defaultExpanded", false);
-        practicalItem.put("children", pracChildren);
-
-        sections.add(Map.of(
-                "sectionTitle", "CBSE Curriculum",
-                "items", List.of(class10Item, class12Item, practicalItem)
-        ));
-
-        // 4. Assessment & Reference Section
-        Map<String, Object> examPrepItem = new LinkedHashMap<>();
-        examPrepItem.put("id", "exam-prep");
-        examPrepItem.put("label", "Exam Prep & Tests");
-        examPrepItem.put("route", "/exam-prep");
-        examPrepItem.put("icon", "check-square");
-        examPrepItem.put("defaultExpanded", false);
-        examPrepItem.put("children", List.of(
-                Map.of("id", "exam-mock", "label", "Timed Mock Exam", "route", "/exam-prep", "queryParams", Map.of("tab", "mock-test")),
-                Map.of("id", "exam-output", "label", "Output & Error Lab", "route", "/exam-prep", "queryParams", Map.of("tab", "output-challenges")),
-                Map.of("id", "exam-viva", "label", "Viva-Voce Flashcards", "route", "/exam-prep", "queryParams", Map.of("tab", "viva-cards"))
-        ));
-
-        Map<String, Object> cheatSheetItem = new LinkedHashMap<>();
-        cheatSheetItem.put("id", "cheatsheet");
-        cheatSheetItem.put("label", "Quick Reference");
-        cheatSheetItem.put("route", "/cheatsheet");
-        cheatSheetItem.put("icon", "zap");
-
-        sections.add(Map.of(
-                "sectionTitle", "Assessment & Reference",
-                "items", List.of(examPrepItem, cheatSheetItem)
-        ));
-
-        return sections;
+        if (dividerBefore) {
+            map.put("dividerBefore", true);
+        }
+        return map;
     }
 
     // =========================================================================
