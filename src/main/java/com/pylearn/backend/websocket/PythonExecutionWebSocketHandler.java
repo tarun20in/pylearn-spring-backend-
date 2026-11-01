@@ -279,7 +279,9 @@ public class PythonExecutionWebSocketHandler extends TextWebSocketHandler {
         if (proc != null && proc.isAlive()) {
             proc.descendants().forEach(ProcessHandle::destroyForcibly);
             proc.destroyForcibly();
-            sendJson(session, Map.of("type", "status", "status", reason));
+            if (session != null && session.isOpen()) {
+                sendJson(session, Map.of("type", "status", "status", reason));
+            }
         }
         Path dir = activeWorkDirs.remove(sessionId);
         if (dir != null) {
@@ -446,7 +448,7 @@ public class PythonExecutionWebSocketHandler extends TextWebSocketHandler {
         try {
             String json = objectMapper.writeValueAsString(data);
             session.sendMessage(new TextMessage(json));
-        } catch (IOException ignored) {
+        } catch (Exception ignored) {
         }
     }
 }
