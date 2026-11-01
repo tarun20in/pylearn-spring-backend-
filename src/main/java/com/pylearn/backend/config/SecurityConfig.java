@@ -49,8 +49,9 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/", "/index.html", "/app.js", "/styles.css", "/favicon.ico", "/static/**").permitAll()
                         .requestMatchers("/ws/**", "/api/health", "/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/catalog", "/api/navigation/**", "/api/chapters/**", "/api/practicals/**", "/api/exams/**", "/api/ide/**", "/api/cheatsheet/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/catalog", "/api/curriculum", "/api/navigation/**", "/api/chapters/**", "/api/practicals/**", "/api/exams/**", "/api/ide/**", "/api/cheatsheet/**").permitAll()
                         .requestMatchers("/api/progress/**").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("TEACHER", "ADMIN")
                         .anyRequest().authenticated()

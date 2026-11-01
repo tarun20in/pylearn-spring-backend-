@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyLearn Studio — Interactive Online Python Editor</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- Top Header Bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">🐍</div>
+      <div>
+        <div class="brand-title">PyLearn Studio</div>
+        <div class="brand-subtitle">Interactive WebSocket Python IDE for Students</div>
+      </div>
+    </div>
+
+    <div class="topbar-center">
+      <div class="ws-badge" id="wsBadge" title="WebSocket Connection Status">
+        <span class="ws-dot" id="wsDot"></span>
+        <span id="wsStatusText">Connecting WS...</span>
+      </div>
+
+      <div class="progress-pill" title="Completed Python Challenges">
+        <span>🏆 Progress:</span>
+        <strong id="progressText">0 / 8</strong>
+        <div class="progress-bar-mini">
+          <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="template-selector-wrap">
+        <label for="templateSelect" class="sr-only">Quick Templates</label>
+        <select id="templateSelect" class="select-control">
+          <option value="">✨ Quick Program Templates...</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button id="runBtn" class="btn btn-run" title="Run Python Code via WebSocket (Ctrl+Enter)">
+        <span class="btn-icon">▶</span>
+        <span>Run Code</span>
+        <kbd class="shortcut-hint">Ctrl+↵</kbd>
+      </button>
+      <button id="stopBtn" class="btn btn-stop" disabled title="Stop Running Program (Esc)">
+        <span class="btn-icon">■</span>
+        <span>Stop</span>
+      </button>
+      <button id="checkChallengeBtn" class="btn btn-verify" title="Run Automated Tests for Current Lesson Challenge">
+        <span class="btn-icon">✓</span>
+        <span>Verify Challenge</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 3-Pane Workspace -->
+  <main class="workspace">
+    <!-- Left Pane: Curriculum & Learning Guide -->
+    <aside class="pane pane-learn" id="learnPane">
+      <div class="pane-header">
+        <div class="tab-group" role="tablist">
+          <button class="tab-btn active" data-tab="lessons" role="tab">📚 Lessons</button>
+          <button class="tab-btn" data-tab="challenge" role="tab">🎯 Challenge</button>
+          <button class="tab-btn" data-tab="cheatsheet" role="tab">⚡ Cheat Sheet</button>
+        </div>
+      </div>
+
+      <!-- Tab 1: Lessons & Concept Guide -->
+      <div class="tab-panel active" id="tab-lessons">
+        <div class="lesson-selector-bar">
+          <select id="lessonSelect" class="lesson-dropdown" aria-label="Select Python Lesson"></select>
+          <div class="lesson-nav-btns">
+            <button id="prevLessonBtn" class="icon-btn" title="Previous Lesson">◀</button>
+            <button id="nextLessonBtn" class="icon-btn" title="Next Lesson">▶</button>
+          </div>
+        </div>
+
+        <div class="lesson-meta-header" id="lessonMetaHeader"></div>
+        <div class="lesson-content" id="lessonConceptContent"></div>
+
+        <div class="lesson-cta-box">
+          <button id="loadStarterBtn" class="btn btn-secondary btn-sm">
+            ↺ Load Lesson Starter Code
+          </button>
+          <button id="goToChallengeBtn" class="btn btn-accent btn-sm">
+            🎯 Try Lesson Challenge →
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 2: Interactive Coding Challenge -->
+      <div class="tab-panel" id="tab-challenge">
+        <div class="challenge-card" id="challengeContainer">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Tab 3: Python Beginner Cheat Sheet -->
+      <div class="tab-panel" id="tab-cheatsheet">
+        <div class="cheatsheet-list">
+          <div class="cheat-item">
+            <h4>1. Output & Formatting</h4>
+            <pre><code>name = "Aarav"
+print("Hello World!")
+print(f"Welcome, {name}!")</code></pre>
+          </div>
+          <div class="cheat-item">
+            <h4>2. Interactive User Input (<code>input()</code>)</h4>
+            <pre><code># Read text (str)
+city = input("Enter city: ")
+
+# Read whole number (int) or decimal (float)
+age = int(input("Enter age: "))
+price = float(input("Enter price: "))</code></pre>
+          </div>
+          <div class="cheat-item">
+            <h4>3. Conditionals (<code>if / elif / else</code>)</h4>
+            <pre><code>if age >= 18:
+    print("Adult")
+elif age >= 13:
+    print("Teen")
+else:
+    print("Child")</code></pre>
+          </div>
+          <div class="cheat-item">
+            <h4>4. Loops (<code>for</code> & <code>while</code>)</h4>
+            <pre><code># Repeat 1 to 5
+for i in range(1, 6):
+    print(i)
+
+# Loop until condition changes
+while True:
+    cmd = input("Type 'exit' to stop: ")
+    if cmd == "exit":
+        break</code></pre>
+          </div>
+          <div class="cheat-item">
+            <h4>5. Lists & Dictionaries</h4>
+            <pre><code>nums = [10, 20, 30]
+nums.append(40)
+print(max(nums), sum(nums))
+
+student = {"name": "Diya", "grade": 95}
+print(student["name"])</code></pre>
+          </div>
+          <div class="cheat-item">
+            <h4>6. Functions & Error Handling</h4>
+            <pre><code>def add(a, b):
+    return a + b
+
+try:
+    x = int(input("Number: "))
+except ValueError:
+    print("Not a valid number!")</code></pre>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Pane: Python Code Editor -->
+    <section class="pane pane-editor">
+      <div class="pane-header editor-header">
+        <div class="file-tabs" id="fileTabs">
+          <button class="file-tab active" data-file="main.py">
+            <span class="file-icon">🐍</span> main.py
+          </button>
+          <button id="addFileBtn" class="file-tab-add" title="Create helper file (e.g. data.txt or utils.py)">
+            +
+          </button>
+        </div>
+
+        <div class="editor-toolbar">
+          <button id="fontDecBtn" class="tool-btn" title="Decrease Editor Font Size">A-</button>
+          <button id="fontIncBtn" class="tool-btn" title="Increase Editor Font Size">A+</button>
+          <button id="copyCodeBtn" class="tool-btn" title="Copy Code to Clipboard">📋 Copy</button>
+          <button id="downloadCodeBtn" class="tool-btn" title="Download Python File">⬇ Save .py</button>
+          <button id="resetCodeBtn" class="tool-btn" title="Reset to Lesson Starter Code">↺ Reset</button>
+        </div>
+      </div>
+
+      <div class="editor-wrapper" id="editorWrapper">
+        <div class="line-numbers" id="lineNumbers" aria-hidden="true">
+          <div>1</div>
+        </div>
+        <div class="code-stage">
+          <pre class="code-highlight" id="codeHighlight" aria-hidden="true"><code id="codeHighlightInner"></code></pre>
+          <textarea
+            id="codeEditor"
+            class="code-textarea"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            placeholder="# Write your Python code here..."
+          ></textarea>
+        </div>
+      </div>
+
+      <footer class="editor-statusbar">
+        <div class="status-left">
+          <span id="cursorPosText">Ln 1, Col 1</span>
+          <span class="sep">•</span>
+          <span>UTF-8</span>
+          <span class="sep">•</span>
+          <span>Python 3 (Unbuffered WebSocket)</span>
+        </div>
+        <div class="status-right">
+          <span class="tip-pill">💡 Tip: Use <code>input("Prompt: ")</code> for live interactive terminal input!</span>
+        </div>
+      </footer>
+    </section>
+
+    <!-- Right Pane: Live WebSocket Terminal & Interactive input() Console -->
+    <section class="pane pane-terminal">
+      <div class="pane-header terminal-header">
+        <div class="terminal-title-group">
+          <span class="terminal-title">🖥 Interactive Python Terminal</span>
+          <span class="exec-state-badge idle" id="execStateBadge">Idle</span>
+        </div>
+        <div class="terminal-toolbar">
+          <button id="toggleBatchStdinBtn" class="tool-btn" title="Optional: Pre-fill batch stdin lines before running">
+            📥 Pre-fill Input
+          </button>
+          <button id="clearTerminalBtn" class="tool-btn" title="Clear Terminal Output">
+            🗑 Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Optional Batch Pre-fill Stdin Drawer (Collapsed by default) -->
+      <div class="batch-stdin-drawer hidden" id="batchStdinDrawer">
+        <div class="batch-stdin-header">
+          <span>Pre-fill Batch <code>stdin</code> (Optional — leave empty to type live in terminal!):</span>
+          <button id="clearBatchStdinBtn" class="link-btn">Clear</button>
+        </div>
+        <textarea
+          id="batchStdinInput"
+          class="batch-stdin-textarea"
+          rows="3"
+          placeholder="Optional: Enter one input per line if you want to feed inputs automatically..."
+        ></textarea>
+      </div>
+
+      <!-- Live Streaming Terminal Output Area -->
+      <div class="terminal-body" id="terminalBody">
+        <div class="terminal-welcome" id="terminalWelcome">
+          <div class="welcome-banner">
+            <strong>🐍 Python WebSocket Execution Console Ready</strong>
+            <p>Click <strong>▶ Run Code</strong> (or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd>). Whenever your Python program calls <code>input()</code>, you can type your response right here in real time!</p>
+          </div>
+        </div>
+        <div class="terminal-stream" id="terminalStream"></div>
+
+        <!-- Inline Interactive Input Line inside Terminal Stream -->
+        <div class="inline-input-row hidden" id="inlineInputRow">
+          <span class="inline-input-caret">❯</span>
+          <input
+            type="text"
+            id="inlineTerminalInput"
+            class="inline-terminal-input"
+            placeholder="Type input value and press Enter..."
+            autocomplete="off"
+          />
+          <button id="sendInlineInputBtn" class="btn-send-stdin">Send ↵</button>
+        </div>
+      </div>
+
+      <!-- Student-Friendly Error Coach Card (Appears automatically on Python errors) -->
+      <div class="error-coach-card hidden" id="errorCoachCard">
+        <div class="error-coach-header">
+          <span class="error-coach-badge" id="errorCoachType">SyntaxError</span>
+          <strong id="errorCoachTitle">Friendly Python Error Helper</strong>
+          <button id="closeErrorCoachBtn" class="error-coach-close" title="Dismiss">✕</button>
+        </div>
+        <p class="error-coach-tip" id="errorCoachTip"></p>
+      </div>
+
+      <!-- Persistent Bottom Stdin Bar for sending input at any time while running -->
+      <div class="terminal-stdin-bar" id="terminalStdinBar">
+        <div class="stdin-indicator" id="stdinIndicator">
+          <span class="stdin-prompt-symbol">&gt;&gt;&gt;</span>
+          <span id="stdinStatusLabel"> Interactive <code>stdin</code></span>
+        </div>
+        <input
+          type="text"
+          id="bottomStdinInput"
+          class="bottom-stdin-input"
+          placeholder="Run a program with input() to type live responses here..."
+          disabled
+          autocomplete="off"
+        />
+        <button id="bottomStdinSendBtn" class="btn btn-sm btn-accent" disabled>
+          Send Input ↵
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

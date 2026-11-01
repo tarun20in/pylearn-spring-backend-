@@ -69,6 +69,11 @@ public class PortalApiController {
         return ResponseEntity.ok(catalogService.getFullCatalog());
     }
 
+    @GetMapping("/curriculum")
+    public ResponseEntity<Map<String, Object>> getCurriculum() {
+        return ResponseEntity.ok(catalogService.getCurriculum());
+    }
+
     @GetMapping("/chapters")
     public ResponseEntity<List<Map<String, Object>>> getChapters(
             @RequestParam(required = false) String classLevel

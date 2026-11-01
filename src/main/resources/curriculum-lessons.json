@@ -1,0 +1,327 @@
+{
+  "lessons": [
+    {
+      "id": "01-hello-variables",
+      "number": 1,
+      "title": "Hello Python & Variables",
+      "category": "Fundamentals",
+      "difficulty": "Beginner",
+      "summary": "Learn how to display output with print(), store data in variables, and format text using f-strings.",
+      "conceptHtml": "\n      <h3>Welcome to Python!</h3>\n      <p>Python is one of the most popular and readable programming languages in the world. Let's start with two core building blocks:</p>\n      <ul>\n        <li><code>print()</code> displays text, numbers, or calculation results on the screen.</li>\n        <li><strong>Variables</strong> store information (like text strings, whole numbers <code>int</code>, or decimals <code>float</code>) so you can reuse them.</li>\n        <li><strong>f-strings</strong> (formatted strings) let you embed variables directly inside text using <code>f\"Hello {name}!\"</code>.</li>\n      </ul>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">Example</div>\n        <pre><code>student = \"Aarav\"\nscore = 95\nprint(f\"{student} scored {score}% in Python!\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 1: Hello Python & Variables\n# Click \"Run Code\" (or press Ctrl+Enter) to execute via WebSocket!\n\nlanguage = \"Python\"\nversion = 3.14\nis_fun = True\n\nprint(\"🐍 Welcome to the Online Python Learning Lab!\")\nprint(f\"Currently learning: {language} (v{version})\")\nprint(f\"Is coding fun? {is_fun}\")\n\n# Try calculating with variables:\napples = 12\nfriends = 4\neach_gets = apples // friends\nprint(f\"If {apples} apples are shared among {friends} friends, each gets {each_gets}.\")\n",
+      "challenge": {
+        "title": "Create a Student ID Card Output",
+        "description": "Read a student's name and favorite subject using `input()`, or define variables, and print a greeting that includes both their name and the result of `7 * 8` (which is `56`). Specifically, write a program that takes a name via `input()` and prints `Hello <name>, 7 x 8 = 56`.",
+        "sampleInput": "Priya\n",
+        "expectedSubstring": "Hello Priya, 7 x 8 = 56",
+        "hints": [
+          "Use `name = input()` to read the student's name.",
+          "Calculate `result = 7 * 8`.",
+          "Use `print(f\"Hello {name}, 7 x 8 = {result}\")`."
+        ],
+        "solutionCode": "name = input(\"Enter student name: \")\nresult = 7 * 8\nprint(f\"Hello {name}, 7 x 8 = {result}\")\n",
+        "tests": [
+          {
+            "name": "Greets Priya with 7 x 8 = 56",
+            "stdin": "Priya\n",
+            "expectContains": [
+              "Hello Priya, 7 x 8 = 56"
+            ]
+          },
+          {
+            "name": "Greetsohan with 7 x 8 = 56",
+            "stdin": "Rohan\n",
+            "expectContains": [
+              "Hello Rohan, 7 x 8 = 56"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "02-interactive-input",
+      "number": 2,
+      "title": "Interactive Programs with input()",
+      "category": "Fundamentals",
+      "difficulty": "Beginner",
+      "summary": "Pause execution and ask the user for live input over WebSocket using input(), int(), and float().",
+      "conceptHtml": "\n      <h3>How <code>input()</code> Works</h3>\n      <p>The <code>input(prompt)</code> function pauses your Python program, displays the prompt in the terminal, and waits for the user to type a response and press <kbd>Enter</kbd>.</p>\n      <ul>\n        <li><code>input()</code> <strong>always returns a string</strong> (<code>str</code>), even if the user types digits!</li>\n        <li>To do math with user input, convert it using <code>int(input(...))</code> for whole numbers or <code>float(input(...))</code> for decimals.</li>\n      </ul>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">Converting Input to Numbers</div>\n        <pre><code>age_text = input(\"Enter your age: \")\nage = int(age_text)\nprint(f\"In 5 years, you will be {age + 5} years old!\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 2: Live Interactive input() over WebSocket\n# Run this program and type your answers directly in the Terminal below!\n\nname = input(\"What is your name? \")\nprint(f\"Nice to meet you, {name}! 👋\")\n\nbirth_year = int(input(\"What year were you born? \"))\ncurrent_year = 2026\nage = current_year - birth_year\n\nprint(f\"Awesome! That makes you around {age} years old in {current_year}.\")\n\n# Let's add two numbers interactively:\nprint(\"\\n--- Quick Addition Calculator ---\")\nnum1 = float(input(\"Enter first number: \"))\nnum2 = float(input(\"Enter second number: \"))\nprint(f\"{num1} + {num2} = {num1 + num2}\")\n",
+      "challenge": {
+        "title": "Rectangle Area Calculator",
+        "description": "Write a program that asks the user for `width` and `height` (as integers using two `input()` calls) and prints `Area: <result>` where `<result>` is `width * height`.",
+        "sampleInput": "6\n9\n",
+        "expectedSubstring": "Area: 54",
+        "hints": [
+          "Read the first number: `width = int(input(\"Width: \"))`",
+          "Read the second number: `height = int(input(\"Height: \"))`",
+          "Print the result: `print(f\"Area: {width * height}\")`"
+        ],
+        "solutionCode": "width = int(input(\"Enter width: \"))\nheight = int(input(\"Enter height: \"))\narea = width * height\nprint(f\"Area: {area}\")\n",
+        "tests": [
+          {
+            "name": "Calculates 6 x 9 rectangle",
+            "stdin": "6\n9\n",
+            "expectContains": [
+              "Area: 54"
+            ]
+          },
+          {
+            "name": "Calculates 12 x 5 rectangle",
+            "stdin": "12\n5\n",
+            "expectContains": [
+              "Area: 60"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "03-conditionals",
+      "number": 3,
+      "title": "Making Decisions (if / elif / else)",
+      "category": "Control Flow",
+      "difficulty": "Beginner",
+      "summary": "Teach your program to make decisions and branch based on conditions and comparison operators.",
+      "conceptHtml": "\n      <h3>Conditional Statements</h3>\n      <p>Programs make decisions using <code>if</code>, <code>elif</code> (else if), and <code>else</code>. Remember that Python uses <strong>4 spaces of indentation</strong> to group code inside a block!</p>\n      <ul>\n        <li>Comparison operators: <code>==</code> (equal), <code>!=</code> (not equal), <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code></li>\n        <li>Logical operators: <code>and</code>, <code>or</code>, <code>not</code></li>\n      </ul>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">Syntax</div>\n        <pre><code>score = int(input(\"Enter exam score: \"))\nif score >= 90:\n    print(\"Grade: A 🌟\")\nelif score >= 75:\n    print(\"Grade: B 👍\")\nelse:\n    print(\"Keep practicing! 💪\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 3: Making Decisions with if / elif / else\n\nprint(\"🎓 Student Grade & Scholarship Checker\")\nscore = int(input(\"Enter your test score (0-100): \"))\n\nif score < 0 or score > 100:\n    print(\"⚠️ Invalid score! Please enter a value between 0 and 100.\")\nelif score >= 90:\n    print(\"Grade: A+ 🏆 (Eligible for Merit Scholarship!)\")\nelif score >= 80:\n    print(\"Grade: A 🌟 (Great job!)\")\nelif score >= 70:\n    print(\"Grade: B 👍 (Solid performance!)\")\nelif score >= 50:\n    print(\"Grade: C ✅ (Passed)\")\nelse:\n    print(\"Grade: F 📚 (Let's review the lessons and try again!)\")\n",
+      "challenge": {
+        "title": "Even or Odd & Sign Checker",
+        "description": "Read an integer from `input()`. If the number is divisible by 2 (`num % 2 == 0`), print `Even`, otherwise print `Odd`.",
+        "sampleInput": "42\n",
+        "expectedSubstring": "Even",
+        "hints": [
+          "Use the modulo operator `%` which gives the remainder of division.",
+          "`if num % 2 == 0:` means the number is Even.",
+          "Otherwise (`else:`), print `Odd`."
+        ],
+        "solutionCode": "num = int(input(\"Enter an integer: \"))\nif num % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")\n",
+        "tests": [
+          {
+            "name": "Identifies 42 as Even",
+            "stdin": "42\n",
+            "expectContains": [
+              "Even"
+            ]
+          },
+          {
+            "name": "Identifies 17 as Odd",
+            "stdin": "17\n",
+            "expectContains": [
+              "Odd"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "04-loops",
+      "number": 4,
+      "title": "Loops: for & while with input()",
+      "category": "Control Flow",
+      "difficulty": "Beginner",
+      "summary": "Repeat actions automatically with for-loops and build interactive multi-step sessions with while-loops.",
+      "conceptHtml": "\n      <h3>Repeating Code with Loops</h3>\n      <p>Python provides two types of loops:</p>\n      <ul>\n        <li><code>for i in range(start, stop):</code> repeats a fixed number of times. Note that <code>range(1, 6)</code> produces <code>1, 2, 3, 4, 5</code>.</li>\n        <li><code>while condition:</code> repeats as long as the condition remains <code>True</code>. Combine <code>while</code> with <code>input()</code> to build interactive games and menus!</li>\n      </ul>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">Interactive while loop</div>\n        <pre><code>secret = \"python\"\nguess = \"\"\nwhile guess != secret:\n    guess = input(\"Guess the password: \").lower()\nprint(\"Access Granted! 🔓\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 4: Loops (for & interactive while loop)\n\nn = int(input(\"Enter a number for its multiplication table: \"))\nprint(f\"\\n--- Multiplication Table of {n} ---\")\nfor i in range(1, 6):\n    print(f\"{n} x {i} = {n * i}\")\n\n# Interactive Guessing Game using a while loop and input()!\nprint(\"\\n🎯 Mini Number Guessing Game (Secret number is between 1 and 10)\")\nsecret_number = 7\nattempts = 0\n\nwhile True:\n    guess = int(input(\"Take a guess (1-10): \"))\n    attempts += 1\n    if guess == secret_number:\n        print(f\"🎉 Correct! You found {secret_number} in {attempts} attempt(s)!\")\n        break\n    elif guess < secret_number:\n        print(\"Too low! Try higher ⬆️\")\n    else:\n        print(\"Too high! Try lower ⬇️\")\n",
+      "challenge": {
+        "title": "Sum of 1 to N",
+        "description": "Read a positive integer `N` from `input()` and calculate the sum of all integers from `1` up to `N` (inclusive). Print `Sum: <total>`.",
+        "sampleInput": "5\n",
+        "expectedSubstring": "Sum: 15",
+        "hints": [
+          "Initialize `total = 0` before the loop.",
+          "Loop with `for i in range(1, n + 1):` and add `total += i`.",
+          "Print `f\"Sum: {total}\"` after the loop finishes."
+        ],
+        "solutionCode": "n = int(input(\"Enter N: \"))\ntotal = 0\nfor i in range(1, n + 1):\n    total += i\nprint(f\"Sum: {total}\")\n",
+        "tests": [
+          {
+            "name": "Sum from 1 to 5 is 15",
+            "stdin": "5\n",
+            "expectContains": [
+              "Sum: 15"
+            ]
+          },
+          {
+            "name": "Sum from 1 to 10 is 55",
+            "stdin": "10\n",
+            "expectContains": [
+              "Sum: 55"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "05-lists-dictionaries",
+      "number": 5,
+      "title": "Lists & Dictionaries",
+      "category": "Data Structures",
+      "difficulty": "Intermediate",
+      "summary": "Store collections of items in ordered Lists and key-value pairs in Dictionaries.",
+      "conceptHtml": "\n      <h3>Working with Collections</h3>\n      <ul>\n        <li><strong>Lists</strong> <code>[10, 20, 30]</code> store ordered sequences. Use <code>.append(item)</code> to add, <code>len(items)</code> for count, and <code>sum(items)</code> to total numbers.</li>\n        <li><strong>Dictionaries</strong> <code>{\"name\": \"Diya\", \"marks\": 92}</code> store key-value pairs for instant lookup by key.</li>\n      </ul>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">List & Dictionary Example</div>\n        <pre><code>fruits = [\"Apple\", \"Mango\"]\nfruits.append(\"Banana\")\nfor idx, fruit in enumerate(fruits, start=1):\n    print(f\"{idx}. {fruit}\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 5: Lists & Dictionaries\n\ncart = []\nprices = {\n    \"notebook\": 45,\n    \"pen\": 15,\n    \"backpack\": 650,\n    \"calculator\": 320\n}\n\nprint(\"🛒 Student Bookstore Catalog:\")\nfor item, price in prices.items():\n    print(f\"  • {item.title():12} : ₹{price}\")\n\nchoice = input(\"\\nWhich item would you like to add to your cart? \").strip().lower()\nqty = int(input(\"How many would you like to buy? \"))\n\nif choice in prices:\n    unit_price = prices[choice]\n    total_cost = unit_price * qty\n    cart.append({\"item\": choice, \"qty\": qty, \"total\": total_cost})\n    print(f\"✅ Added {qty}x {choice.title()} — Total: ₹{total_cost}\")\nelse:\n    print(f\"⚠️ '{choice}' is not in the catalog.\")\n",
+      "challenge": {
+        "title": "Find Maximum and Average of 3 Numbers",
+        "description": "Read 3 integers using three `input()` calls, store them in a list, and print `Max: <highest>` on one line and `Sum: <total>` on the next line.",
+        "sampleInput": "10\n25\n15\n",
+        "expectedSubstring": "Max: 25",
+        "hints": [
+          "Read 3 numbers: `nums = [int(input()), int(input()), int(input())]`",
+          "Use Python's built-in `max(nums)` and `sum(nums)` functions.",
+          "Print `f\"Max: {max(nums)}\"` and `f\"Sum: {sum(nums)}\"`."
+        ],
+        "solutionCode": "a = int(input(\"First number: \"))\nb = int(input(\"Second number: \"))\nc = int(input(\"Third number: \"))\nnums = [a, b, c]\nprint(f\"Max: {max(nums)}\")\nprint(f\"Sum: {sum(nums)}\")\n",
+        "tests": [
+          {
+            "name": "Finds Max and Sum for 10, 25, 15",
+            "stdin": "10\n25\n15\n",
+            "expectContains": [
+              "Max: 25",
+              "Sum: 50"
+            ]
+          },
+          {
+            "name": "Finds Max and Sum for 99, 1, 50",
+            "stdin": "99\n1\n50\n",
+            "expectContains": [
+              "Max: 99",
+              "Sum: 150"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "06-functions",
+      "number": 6,
+      "title": "Functions & Modular Code",
+      "category": "Functions",
+      "difficulty": "Intermediate",
+      "summary": "Organize reusable logic with def, parameters, return values, and docstrings.",
+      "conceptHtml": "\n      <h3>Defining Functions with <code>def</code></h3>\n      <p>Functions let you write a block of code once and call it whenever you need it.</p>\n      <ul>\n        <li>Use <code>def function_name(parameters):</code> to define a function.</li>\n        <li>Use <code>return value</code> to send the result back to the caller.</li>\n      </ul>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">Function Example</div>\n        <pre><code>def celsius_to_fahrenheit(c):\n    return (c * 9 / 5) + 32\n\ntemp_c = float(input(\"Enter °C: \"))\nprint(f\"{temp_c}°C is {celsius_to_fahrenheit(temp_c):.1f}°F\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 6: Functions & Reusable Code\n\ndef calculate_bmi(weight_kg, height_m):\n    \"\"\"Calculates Body Mass Index (BMI) and category.\"\"\"\n    bmi = weight_kg / (height_m ** 2)\n    if bmi < 18.5:\n        category = \"Underweight\"\n    elif bmi < 25:\n        category = \"Normal weight\"\n    elif bmi < 30:\n        category = \"Overweight\"\n    else:\n        category = \"Obese\"\n    return round(bmi, 1), category\n\ndef factorial(n):\n    \"\"\"Calculates n! (1 * 2 * ... * n).\"\"\"\n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result\n\nnum = int(input(\"Enter a number to compute its factorial (e.g. 5): \"))\nprint(f\"{num}! = {factorial(num)}\")\n",
+      "challenge": {
+        "title": "Square Function & Output",
+        "description": "Define a function `square(n)` that returns `n * n`. Read an integer from `input()`, call `square(n)`, and print `Square: <result>`.",
+        "sampleInput": "9\n",
+        "expectedSubstring": "Square: 81",
+        "hints": [
+          "Define `def square(n): return n * n`",
+          "Read input with `val = int(input())`",
+          "Print `f\"Square: {square(val)}\"`"
+        ],
+        "solutionCode": "def square(n):\n    return n * n\n\nval = int(input(\"Enter a number: \"))\nprint(f\"Square: {square(val)}\")\n",
+        "tests": [
+          {
+            "name": "Squares 9 to 81",
+            "stdin": "9\n",
+            "expectContains": [
+              "Square: 81"
+            ]
+          },
+          {
+            "name": "Squares 12 to 144",
+            "stdin": "12\n",
+            "expectContains": [
+              "Square: 144"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "07-strings-algorithms",
+      "number": 7,
+      "title": "Strings, Slicing & Palindromes",
+      "category": "Algorithms",
+      "difficulty": "Intermediate",
+      "summary": "Manipulate text with string methods, slicing [::-1], word counting, and pattern challenges.",
+      "conceptHtml": "\n      <h3>String Power Tools</h3>\n      <p>Python makes working with text effortless:</p>\n      <ul>\n        <li><code>text.upper()</code>, <code>text.lower()</code>, <code>text.title()</code>, <code>text.strip()</code></li>\n        <li><code>text.split()</code> splits a sentence into a list of words.</li>\n        <li><code>text[::-1]</code> reverses a string using slice notation!</li>\n      </ul>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">Reversing a String</div>\n        <pre><code>word = \"radar\"\nif word == word[::-1]:\n    print(\"It's a palindrome!\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 7: Strings, Slicing & Text Analysis\n\nsentence = input(\"Type a sentence or word to analyze: \").strip()\n\nwords = sentence.split()\nreversed_text = sentence[::-1]\nvowel_count = sum(1 for ch in sentence.lower() if ch in \"aeiou\")\n\nprint(\"\\n📊 Text Analysis Report:\")\nprint(f\"  • Character count : {len(sentence)}\")\nprint(f\"  • Word count      : {len(words)}\")\nprint(f\"  • Vowel count     : {vowel_count}\")\nprint(f\"  • Reversed        : {reversed_text}\")\n\ncleaned = \"\".join(ch.lower() for ch in sentence if ch.isalnum())\nif cleaned and cleaned == cleaned[::-1]:\n    print(\"  • ✨ This is a Palindrome!\")\nelse:\n    print(\"  • Not a palindrome.\")\n",
+      "challenge": {
+        "title": "Reverse a Word",
+        "description": "Read a word from `input()` and print `Reversed: <reversed_word>` using string slicing.",
+        "sampleInput": "python\n",
+        "expectedSubstring": "Reversed: nohtyp",
+        "hints": [
+          "Read the word: `word = input().strip()`",
+          "Reverse it with `word[::-1]`",
+          "Print `f\"Reversed: {word[::-1]}\"`"
+        ],
+        "solutionCode": "word = input(\"Enter a word: \").strip()\nprint(f\"Reversed: {word[::-1]}\")\n",
+        "tests": [
+          {
+            "name": "Reverses 'python' to 'nohtyp'",
+            "stdin": "python\n",
+            "expectContains": [
+              "Reversed: nohtyp"
+            ]
+          },
+          {
+            "name": "Reverses 'coding' to 'gnidoc'",
+            "stdin": "coding\n",
+            "expectContains": [
+              "Reversed: gnidoc"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "08-error-handling-playground",
+      "number": 8,
+      "title": "Error Handling (try / except) & Mini-Game",
+      "category": "Best Practices",
+      "difficulty": "Intermediate",
+      "summary": "Prevent crashes when users type invalid input using try/except blocks, and build a full interactive game!",
+      "conceptHtml": "\n      <h3>Graceful Error Handling with <code>try / except</code></h3>\n      <p>What happens if your program runs <code>int(input(\"Enter a number: \"))</code> and the user types <code>\"hello\"</code>? Python raises a <code>ValueError</code>! You can catch and recover from errors using <code>try</code> and <code>except</code>:</p>\n      <div class=\"concept-example\">\n        <div class=\"concept-label\">Safe Number Input</div>\n        <pre><code>try:\n    num = int(input(\"Enter a number: \"))\n    print(f\"100 / {num} = {100 / num}\")\nexcept ValueError:\n    print(\"Please enter valid digits!\")\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero!\")</code></pre>\n      </div>\n    ",
+      "starterCode": "# Lesson 8: Safe Input Validation with try / except\n\nprint(\"🛡️ Safe Division Calculator\")\n\nwhile True:\n    raw_a = input(\"\\nEnter numerator (or 'q' to quit): \").strip()\n    if raw_a.lower() == 'q':\n        print(\"Goodbye! Keep coding in Python! 🐍\")\n        break\n\n    raw_b = input(\"Enter denominator: \").strip()\n\n    try:\n        a = float(raw_a)\n        b = float(raw_b)\n        result = a / b\n        print(f\"✅ Result: {a} / {b} = {result:.2f}\")\n    except ValueError:\n        print(\"❌ Error: Please enter valid numeric values!\")\n    except ZeroDivisionError:\n        print(\"❌ Error: Division by zero is undefined!\")\n",
+      "challenge": {
+        "title": "Safe Integer Doubler",
+        "description": "Read a line from `input()`. Try converting it to an `int` and print `Double: <n * 2>`. If a `ValueError` occurs, print `Invalid number`.",
+        "sampleInput": "abc\n",
+        "expectedSubstring": "Invalid number",
+        "hints": [
+          "Wrap `n = int(input())` inside a `try:` block.",
+          "Inside `try:`, print `f\"Double: {n * 2}\"`.",
+          "Inside `except ValueError:`, print `\"Invalid number\"`."
+        ],
+        "solutionCode": "try:\n    n = int(input(\"Enter a number: \"))\n    print(f\"Double: {n * 2}\")\nexcept ValueError:\n    print(\"Invalid number\")\n",
+        "tests": [
+          {
+            "name": "Doubles valid integer 21 to 42",
+            "stdin": "21\n",
+            "expectContains": [
+              "Double: 42"
+            ]
+          },
+          {
+            "name": "Catches ValueError on 'abc'",
+            "stdin": "abc\n",
+            "expectContains": [
+              "Invalid number"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "templates": [
+    {
+      "id": "interactive-quiz",
+      "name": "🎯 Interactive Quiz Game",
+      "code": "# Interactive Python Quiz Game (Uses input() over WebSocket)\nquestions = [\n    (\"What keyword defines a function in Python?\", \"def\"),\n    (\"Which function reads user input from the terminal?\", \"input\"),\n    (\"What is the output of 2 ** 3 in Python?\", \"8\")\n]\n\nprint(\"=== 🧠 Welcome to the Python Mastery Quiz! ===\")\nstudent = input(\"Enter your name to begin: \").strip() or \"Student\"\nscore = 0\n\nfor idx, (q, ans) in enumerate(questions, start=1):\n    print(f\"\\nQuestion {idx}: {q}\")\n    user_ans = input(\"Your answer: \").strip().lower()\n    if user_ans == ans:\n        print(\"✅ Correct!\")\n        score += 1\n    else:\n        print(f\"❌ Not quite! The right answer was: {ans}\")\n\nprint(f\"\\n🏆 Final Score for {student}: {score}/{len(questions)}\")\n"
+    },
+    {
+      "id": "atm-simulator",
+      "name": "🏦 Interactive ATM Simulator",
+      "code": "# Interactive Bank ATM Simulator with while loop + input()\nbalance = 1000.0\nprint(\"🏦 Welcome to PyBank Interactive ATM\")\n\nwhile True:\n    print(f\"\\nCurrent Balance: ₹{balance:.2f}\")\n    print(\"1. Deposit  |  2. Withdraw  |  3. Exit\")\n    choice = input(\"Choose an option (1/2/3): \").strip()\n\n    if choice == \"1\":\n        amt = float(input(\"Enter deposit amount: ₹\"))\n        if amt > 0:\n            balance += amt\n            print(f\"✅ Deposited ₹{amt:.2f}\")\n    elif choice == \"2\":\n        amt = float(input(\"Enter withdrawal amount: ₹\"))\n        if amt > balance:\n            print(\"⚠️ Insufficient funds!\")\n        elif amt > 0:\n            balance -= amt\n            print(f\"✅ Withdrew ₹{amt:.2f}\")\n    elif choice == \"3\":\n        print(\"Thank you for banking with PyBank! 👋\")\n        break\n    else:\n        print(\"⚠️ Invalid option, please type 1, 2, or 3.\")\n"
+    },
+    {
+      "id": "pattern-art",
+      "name": "✨ Pyramid & Diamond Art",
+      "code": "# ASCII Pyramid Generator\nrows = int(input(\"Enter number of pyramid rows (e.g. 6): \"))\n\nprint(f\"\\n✨ Generating {rows}-Row Star Pyramid:\\n\")\nfor i in range(1, rows + 1):\n    spaces = \" \" * (rows - i)\n    stars = \"★ \" * i\n    print(f\"{spaces}{stars}\")\n"
+    }
+  ]
+}

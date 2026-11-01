@@ -528,6 +528,184 @@
           ]
         }
       ]
+    },
+    {
+      "id": "class11-ch1",
+      "classLevel": "class11",
+      "chapterNumber": 1,
+      "unitName": "Unit 1: Computer Systems & Organisation",
+      "title": "Basic Computer Organisation, CPU, Memory & Number Systems",
+      "marksWeightage": 10,
+      "difficulty": "beginner",
+      "overview": "Fundamentals of computer architecture, operating systems, boolean logic, and binary/octal/hexadecimal number conversions.",
+      "importantFormulasOrSyntax": [
+        "Binary: Base 2 (0, 1)",
+        "Octal: Base 8 (0-7)",
+        "Hexadecimal: Base 16 (0-9, A-F)",
+        "1 Byte = 8 bits, 1 KB = 1024 Bytes"
+      ],
+      "topics": [
+        {
+          "id": "c11-t1-1",
+          "title": "Computer Hardware & Software Types",
+          "summary": "Understanding system software (OS, language translators), application software, and memory hierarchy (registers, cache, RAM, secondary storage).",
+          "keyPoints": [
+            "Compiler vs Interpreter",
+            "Primary vs Secondary Memory",
+            "Operating System roles"
+          ],
+          "boardTip": "CBSE frequently asks difference between Compiler and Interpreter (2 Marks).",
+          "codeExamples": [
+            {
+              "title": "Checking Python Architecture",
+              "description": "Print platform and architecture details",
+              "code": "import platform\nprint('OS:', platform.system())\nprint('Python Version:', platform.python_version())"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "class11-ch2",
+      "classLevel": "class11",
+      "chapterNumber": 2,
+      "unitName": "Unit 2: Computational Thinking and Programming - 1",
+      "title": "Python Basics: Tokens, Variables, Data Types & Operators",
+      "marksWeightage": 12,
+      "difficulty": "beginner",
+      "overview": "Python character set, keywords, identifiers, literals, operators, expressions, and the input() and print() functions.",
+      "importantFormulasOrSyntax": [
+        "Identifiers: letters, digits, underscore (_); cannot start with digit",
+        "Keywords are case-sensitive: True, False, None, if, elif, else...",
+        "Operators: +, -, *, /, // (floor div), % (modulus), ** (power)",
+        "Logical: and, or, not | Relational: ==, !=, >, <, >=, <="
+      ],
+      "topics": [
+        {
+          "id": "c11-t2-1",
+          "title": "Input and Output in Python",
+          "summary": "Reading console input as string and converting types using int() or float(), formatting output with sep and end parameters.",
+          "keyPoints": [
+            "input() always returns str",
+            "sep defines separator between values",
+            "end specifies trailing character (default \\n)"
+          ],
+          "boardTip": "Watch out for print('A', 'B', sep='@', end='#') output prediction questions.",
+          "codeExamples": [
+            {
+              "title": "Formatted Console I/O",
+              "description": "Using sep and end parameters",
+              "code": "name = input('Enter student name: ')\nage = int(input('Enter age: '))\nprint('Student:', name, 'Age:', age, sep=' | ', end=' [CBSE-11]\\n')"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "class11-ch3",
+      "classLevel": "class11",
+      "chapterNumber": 3,
+      "unitName": "Unit 2: Computational Thinking and Programming - 1",
+      "title": "Flow of Control: Conditional Statements & Loops (for, while, range)",
+      "marksWeightage": 15,
+      "difficulty": "intermediate",
+      "overview": "Decision making using if, if-else, if-elif-else, iteration using while and for loops, range() function, break and continue statements.",
+      "importantFormulasOrSyntax": [
+        "range(stop) -> 0 to stop - 1",
+        "range(start, stop[, step]) -> start to stop - 1 with step increment",
+        "break: terminates the loop immediately",
+        "continue: skips remaining loop body and starts next iteration",
+        "else block on loop: executes when loop finishes normally without break"
+      ],
+      "topics": [
+        {
+          "id": "c11-t3-1",
+          "title": "Loops with range() and Nested Loops",
+          "summary": "Iterating sequences with step values, printing patterns, and nesting loops.",
+          "keyPoints": [
+            "range(10, 0, -2) counts downwards",
+            "Outer loop controls rows, inner loop controls columns"
+          ],
+          "boardTip": "3-Mark questions on nested loop pattern printing are very common.",
+          "codeExamples": [
+            {
+              "title": "Prime Number Check",
+              "description": "Check if a number n is prime using loop",
+              "code": "n = int(input('Enter positive integer: '))\nif n < 2:\n    print(n, 'is not prime')\nelse:\n    is_prime = True\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            is_prime = False\n            break\n    print(n, 'is prime' if is_prime else 'is composite')"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "class11-ch4",
+      "classLevel": "class11",
+      "chapterNumber": 4,
+      "unitName": "Unit 2: Computational Thinking and Programming - 1",
+      "title": "Functions: User-Defined, Arguments, Return Values & Scope",
+      "marksWeightage": 12,
+      "difficulty": "intermediate",
+      "overview": "Defining functions with def, positional vs keyword arguments, default parameter values, returning multiple values, and local vs global scope.",
+      "importantFormulasOrSyntax": [
+        "def func_name(param1, param2=default):",
+        "return val1, val2 (returns tuple)",
+        "global keyword: allows modifying global variable inside function",
+        "LEGB rule: Local -> Enclosing -> Global -> Built-in"
+      ],
+      "topics": [
+        {
+          "id": "c11-t4-1",
+          "title": "Defining Functions and Variable Scope",
+          "summary": "Creating reusable logic blocks with parameters and analyzing scope execution.",
+          "keyPoints": [
+            "Default parameters must come after non-default parameters",
+            "Functions without return yield None"
+          ],
+          "boardTip": "Predict output questions involving global variables are standard 2-3 mark questions.",
+          "codeExamples": [
+            {
+              "title": "Factorial and Power Calculator",
+              "description": "Recursive and iterative function implementation",
+              "code": "def factorial(n):\n    res = 1\n    for i in range(2, n + 1):\n        res *= i\n    return res\n\nprint('5! =', factorial(5))"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "class11-ch5",
+      "classLevel": "class11",
+      "chapterNumber": 5,
+      "unitName": "Unit 2: Computational Thinking and Programming - 1",
+      "title": "Strings, Lists, Tuples & Dictionaries: Operations, Slicing & Methods",
+      "marksWeightage": 16,
+      "difficulty": "intermediate",
+      "overview": "Sequential data types: string traversing, slicing s[start:stop:step], list mutability vs tuple immutability, list methods (.append(), .extend(), .pop()), dictionary keys and values.",
+      "importantFormulasOrSyntax": [
+        "Slicing: s[start:stop:step] (negative step reverses)",
+        "Strings are IMMUTABLE; Lists are MUTABLE",
+        "Tuples are IMMUTABLE: (1, 2, 3)",
+        "Dict keys must be immutable (str, int, tuple), values can be any type"
+      ],
+      "topics": [
+        {
+          "id": "c11-t5-1",
+          "title": "List Operations and Dictionary Lookups",
+          "summary": "Traversing, modifying lists, counting frequencies using dictionaries.",
+          "keyPoints": [
+            "list.sort() in-place vs sorted(list) new list",
+            "dict.get(key, default) avoids KeyError"
+          ],
+          "boardTip": "Slicing output questions like L[::-1] or L[1:5:2] are tested every year.",
+          "codeExamples": [
+            {
+              "title": "Character Frequency Counter",
+              "description": "Count frequency of each character using dict",
+              "code": "text = input('Enter string: ')\ncounts = {}\nfor ch in text:\n    counts[ch] = counts.get(ch, 0) + 1\nfor k, v in sorted(counts.items()):\n    print(f'{k}: {v}')"
+            }
+          ]
+        }
+      ]
     }
   ],
   "practicals": [
@@ -649,6 +827,57 @@
       "sampleInput": "153\n",
       "expectedOutput": "Is Armstrong? Yes (Digit power sum: 153)",
       "vivaTip": "153 is an Armstrong number because $1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153$. Other 3-digit Armstrong numbers are 370, 371, and 407."
+    },
+    {
+      "id": "prac-c11-1",
+      "programNumber": 1,
+      "classLevel": "class11",
+      "category": "Fundamentals",
+      "title": "Determine whether a number is prime or composite",
+      "aim": "Write a Python program to input an integer n and check whether it is prime or composite.",
+      "algorithm": [
+        "1. Input integer n from user.",
+        "2. If n <= 1, print neither prime nor composite.",
+        "3. Loop i from 2 to int(sqrt(n)) + 1.",
+        "4. If n % i == 0, mark as composite and break.",
+        "5. If loop completes without break, print prime."
+      ],
+      "code": "import math\n\nn = int(input('Enter positive integer: '))\nif n <= 1:\n    print(f'{n} is neither prime nor composite.')\nelse:\n    is_prime = True\n    for i in range(2, int(math.isqrt(n)) + 1):\n        if n % i == 0:\n            is_prime = False\n            break\n    if is_prime:\n        print(f'{n} is a Prime Number.')\n    else:\n        print(f'{n} is a Composite Number.')",
+      "expectedOutput": "Enter positive integer: 17\n17 is a Prime Number.",
+      "vivaTip": "Why test only up to sqrt(n)? If a number has a factor greater than its square root, it must also have a complementary factor smaller than its square root."
+    },
+    {
+      "id": "prac-c11-2",
+      "programNumber": 2,
+      "classLevel": "class11",
+      "category": "Fundamentals",
+      "title": "Generate Fibonacci Series up to n Terms",
+      "aim": "Write a Python program to display the Fibonacci series up to n terms entered by the user.",
+      "algorithm": [
+        "1. Input n (number of terms).",
+        "2. Initialize first two terms a = 0, b = 1.",
+        "3. Loop n times: print a, update a, b = b, a + b."
+      ],
+      "code": "n = int(input('Enter number of terms: '))\na, b = 0, 1\nprint('Fibonacci Series:')\nfor _ in range(n):\n    print(a, end=' ')\n    a, b = b, a + b\nprint()",
+      "expectedOutput": "Enter number of terms: 8\nFibonacci Series:\n0 1 1 2 3 5 8 13",
+      "vivaTip": "Fibonacci sequence satisfies F(n) = F(n-1) + F(n-2) with seed values F(0)=0 and F(1)=1."
+    },
+    {
+      "id": "prac-c11-3",
+      "programNumber": 3,
+      "classLevel": "class11",
+      "category": "Fundamentals",
+      "title": "Count Vowels, Consonants, Digits & Spaces in a Sentence",
+      "aim": "Write a program that takes a sentence and counts the number of vowels, consonants, digits and whitespaces.",
+      "algorithm": [
+        "1. Input text string.",
+        "2. Initialize counters: v=0, c=0, d=0, s=0.",
+        "3. Loop each character: check in 'aeiouAEIOU', isalpha(), isdigit(), isspace().",
+        "4. Display all counter values."
+      ],
+      "code": "s = input('Enter a sentence: ')\nv = c = d = sp = 0\nfor ch in s:\n    if ch.lower() in 'aeiou':\n        v += 1\n    elif ch.isalpha():\n        c += 1\n    elif ch.isdigit():\n        d += 1\n    elif ch.isspace():\n        sp += 1\n\nprint(f'Vowels: {v} | Consonants: {c} | Digits: {d} | Spaces: {sp}')",
+      "expectedOutput": "Enter a sentence: PyLearn 2026 CBSE Class 11\nVowels: 6 | Consonants: 12 | Digits: 6 | Spaces: 4",
+      "vivaTip": "ch.isalpha() returns True for alphabetic characters; subtracting vowels gives the consonant count."
     }
   ],
   "examQuestions": [
@@ -813,6 +1042,70 @@
       ],
       "correctIndex": 1,
       "explanation": "`range(10, 2, -3)` generates `10, 7, 4` (stops before `2`). Therefore, the loop runs `3` times.",
+      "marks": 1
+    },
+    {
+      "id": "q-c11-1",
+      "classLevel": "class11",
+      "chapterId": "class11-ch2",
+      "questionType": "mcq",
+      "question": "Which of the following is an invalid identifier in Python?",
+      "options": [
+        "_my_var",
+        "2nd_student",
+        "StudentName",
+        "total_sum"
+      ],
+      "correctIndex": 1,
+      "explanation": "Identifiers cannot begin with a digit. '2nd_student' starts with '2', making it invalid.",
+      "marks": 1
+    },
+    {
+      "id": "q-c11-2",
+      "classLevel": "class11",
+      "chapterId": "class11-ch3",
+      "questionType": "mcq",
+      "question": "What is the output of: print(list(range(2, 10, 3)))?",
+      "options": [
+        "[2, 5, 8]",
+        "[2, 5, 8, 11]",
+        "[3, 6, 9]",
+        "[2, 4, 6, 8]"
+      ],
+      "correctIndex": 0,
+      "explanation": "range(2, 10, 3) starts at 2, increments by 3: 2, 5, 8. The next value 11 exceeds the stop value 10.",
+      "marks": 1
+    },
+    {
+      "id": "q-c11-3",
+      "classLevel": "class11",
+      "chapterId": "class11-ch5",
+      "questionType": "mcq",
+      "question": "Which data structure in Python is mutable?",
+      "options": [
+        "Tuple",
+        "String",
+        "List",
+        "Integer"
+      ],
+      "correctIndex": 2,
+      "explanation": "Lists are mutable sequences in Python. Tuples, strings, and integers are immutable.",
+      "marks": 1
+    },
+    {
+      "id": "mcq-1793541502825",
+      "classLevel": "class12",
+      "chapterId": "teacher-authored",
+      "question": "What will be the output of the following Python tuple unpacking expression?",
+      "codeSnippet": "data = (10, 20, 30, 40)\na, *b, c = data\nprint(b)",
+      "options": [
+        "(20, 30)",
+        "[20, 30]",
+        "20",
+        "TypeError"
+      ],
+      "correctIndex": 1,
+      "explanation": "The starred target *b always collects intermediate elements into a Python list [20, 30].",
       "marks": 1
     }
   ],

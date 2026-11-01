@@ -2,6 +2,7 @@ package com.pylearn.backend.websocket;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pylearn.backend.service.CatalogService;
 import com.pylearn.backend.service.PythonErrorAnalyzerService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
@@ -20,11 +21,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -35,6 +39,7 @@ public class PythonExecutionWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper;
     private final PythonErrorAnalyzerService errorAnalyzer;
+    private final CatalogService catalogService;
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
     private final Map<String, Process> activeProcesses = new ConcurrentHashMap<>();
@@ -43,10 +48,12 @@ public class PythonExecutionWebSocketHandler extends TextWebSocketHandler {
 
     public PythonExecutionWebSocketHandler(
             ObjectMapper objectMapper,
-            PythonErrorAnalyzerService errorAnalyzer
+            PythonErrorAnalyzerService errorAnalyzer,
+            CatalogService catalogService
     ) {
         this.objectMapper = objectMapper;
         this.errorAnalyzer = errorAnalyzer;
+        this.catalogService = catalogService;
     }
 
     @PostConstruct
@@ -86,6 +93,7 @@ public class PythonExecutionWebSocketHandler extends TextWebSocketHandler {
                 case "run" -> handleRunCommand(session, payload);
                 case "stdin" -> handleStdinCommand(session, payload);
                 case "stop" -> stopSessionProcess(session, "stopped");
+                case "check_challenge" -> handleCheckChallenge(session, payload);
                 case "ping" -> sendJson(session, Map.of("type", "pong", "timestamp", System.currentTimeMillis()));
                 default -> {
                     // Ignore unknown commands
@@ -289,6 +297,148 @@ public class PythonExecutionWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         stopSessionProcess(session, "disconnected");
+    }
+
+    @SuppressWarnings("unchecked")
+    private void handleCheckChallenge(WebSocketSession session, Map<String, Object> payload) {
+        String lessonId = String.valueOf(payload.getOrDefault("lessonId", ""));
+        String code = String.valueOf(payload.getOrDefault("code", ""));
+
+        Map<String, Object> lesson = catalogService.getLessonById(lessonId);
+        if (lesson == null || !(lesson.get("challenge") instanceof Map<?, ?> challengeMap)) {
+            sendJson(session, Map.of(
+                    "type", "challenge_result",
+                    "passed", false,
+                    "error", "Challenge not found for this lesson."
+            ));
+            return;
+        }
+
+        sendJson(session, Map.of("type", "status", "status", "testing"));
+
+        List<Map<String, Object>> results = new ArrayList<>();
+        Object rawTests = challengeMap.get("tests");
+        if (rawTests instanceof List<?> testsList) {
+            for (Object testObj : testsList) {
+                if (testObj instanceof Map<?, ?> tMap) {
+                    Map<String, Object> testCase = new LinkedHashMap<>();
+                    tMap.forEach((k, v) -> testCase.put(String.valueOf(k), v));
+                    results.add(runChallengeTestCase(code, testCase));
+                }
+            }
+        }
+
+        boolean allPassed = !results.isEmpty() && results.stream().allMatch(r -> Boolean.TRUE.equals(r.get("passed")));
+        Map<String, Object> resp = new LinkedHashMap<>();
+        resp.put("type", "challenge_result");
+        resp.put("lessonId", lessonId);
+        resp.put("passed", allPassed);
+        resp.put("results", results);
+        sendJson(session, resp);
+    }
+
+    private Map<String, Object> runChallengeTestCase(String code, Map<String, Object> testCase) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        String name = String.valueOf(testCase.getOrDefault("name", "Test Case"));
+        String stdin = String.valueOf(testCase.getOrDefault("stdin", ""));
+        List<String> expectContains = new ArrayList<>();
+        if (testCase.get("expectContains") instanceof List<?> list) {
+            list.forEach(item -> expectContains.add(String.valueOf(item)));
+        }
+
+        Path tmpDir = null;
+        long startTime = System.currentTimeMillis();
+        boolean timedOut = false;
+        int exitCode = -1;
+        StringBuilder stdoutBuilder = new StringBuilder();
+        StringBuilder stderrBuilder = new StringBuilder();
+
+        try {
+            tmpDir = Files.createTempDirectory("pylearn-test-");
+            Path scriptPath = tmpDir.resolve("main.py");
+            Files.writeString(scriptPath, code, StandardCharsets.UTF_8);
+
+            ProcessBuilder pb = new ProcessBuilder(
+                    "python", "-u",
+                    extractedRunnerPath.toAbsolutePath().toString(),
+                    scriptPath.toAbsolutePath().toString()
+            );
+            pb.directory(tmpDir.toFile());
+            pb.environment().put("PYTHONIOENCODING", "utf-8");
+            pb.environment().put("PYTHONUNBUFFERED", "1");
+
+            Process process = pb.start();
+
+            if (!stdin.isEmpty()) {
+                String inputWithNewline = stdin.endsWith("\n") ? stdin : stdin + "\n";
+                OutputStream os = process.getOutputStream();
+                os.write(inputWithNewline.getBytes(StandardCharsets.UTF_8));
+                os.flush();
+            }
+            process.getOutputStream().close();
+
+            Future<?> outFuture = executor.submit(() -> {
+                try (InputStreamReader isr = new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8)) {
+                    char[] buf = new char[1024];
+                    int n;
+                    while ((n = isr.read(buf)) != -1) {
+                        String s = new String(buf, 0, n).replace(INPUT_SIGNAL, "");
+                        stdoutBuilder.append(s);
+                    }
+                } catch (IOException ignored) {}
+            });
+
+            Future<?> errFuture = executor.submit(() -> {
+                try (InputStreamReader isr = new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8)) {
+                    char[] buf = new char[1024];
+                    int n;
+                    while ((n = isr.read(buf)) != -1) {
+                        stderrBuilder.append(new String(buf, 0, n));
+                    }
+                } catch (IOException ignored) {}
+            });
+
+            boolean finished = process.waitFor(5, TimeUnit.SECONDS);
+            if (!finished) {
+                timedOut = true;
+                process.descendants().forEach(ProcessHandle::destroyForcibly);
+                process.destroyForcibly();
+            } else {
+                exitCode = process.exitValue();
+                try {
+                    outFuture.get(1, TimeUnit.SECONDS);
+                    errFuture.get(1, TimeUnit.SECONDS);
+                } catch (Exception ignored) {}
+            }
+        } catch (Exception e) {
+            stderrBuilder.append(e.getMessage());
+        } finally {
+            if (tmpDir != null) {
+                FileSystemUtils.deleteRecursively(tmpDir.toFile());
+            }
+        }
+
+        long durationMs = System.currentTimeMillis() - startTime;
+        String stdout = stdoutBuilder.toString().trim();
+        String stderr = stderrBuilder.toString().trim();
+
+        List<String> missing = new ArrayList<>();
+        for (String exp : expectContains) {
+            if (!stdout.contains(exp)) {
+                missing.add(exp);
+            }
+        }
+
+        boolean passed = !timedOut && exitCode == 0 && missing.isEmpty();
+        result.put("name", name);
+        result.put("passed", passed);
+        result.put("stdin", stdin);
+        result.put("stdout", stdout);
+        result.put("stderr", stderr);
+        result.put("expected", String.join(", ", expectContains));
+        result.put("timedOut", timedOut);
+        result.put("durationMs", durationMs);
+        return result;
     }
 
     private synchronized void sendJson(WebSocketSession session, Map<String, Object> data) {

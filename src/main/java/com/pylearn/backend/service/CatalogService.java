@@ -31,7 +31,9 @@ public class CatalogService {
 
     private final ObjectMapper objectMapper;
     private Map<String, Object> catalogData = new LinkedHashMap<>();
+    private Map<String, Object> curriculumData = new LinkedHashMap<>();
     private final Path writableCatalogPath = Paths.get("src", "main", "resources", "portal-catalog.json");
+    private final Path writableCurriculumPath = Paths.get("src", "main", "resources", "curriculum-lessons.json");
 
     public CatalogService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -44,7 +46,15 @@ public class CatalogService {
         } else {
             try (InputStream in = new ClassPathResource("portal-catalog.json").getInputStream()) {
                 catalogData = objectMapper.readValue(in, new TypeReference<Map<String, Object>>() {});
-            }
+            } catch (Exception ignored) {}
+        }
+
+        if (Files.exists(writableCurriculumPath)) {
+            curriculumData = objectMapper.readValue(writableCurriculumPath.toFile(), new TypeReference<Map<String, Object>>() {});
+        } else {
+            try (InputStream in = new ClassPathResource("curriculum-lessons.json").getInputStream()) {
+                curriculumData = objectMapper.readValue(in, new TypeReference<Map<String, Object>>() {});
+            } catch (Exception ignored) {}
         }
     }
 
@@ -61,6 +71,27 @@ public class CatalogService {
 
     public synchronized Map<String, Object> getFullCatalog() {
         return catalogData;
+    }
+
+    public synchronized Map<String, Object> getCurriculum() {
+        return curriculumData;
+    }
+
+    @SuppressWarnings("unchecked")
+    public synchronized Map<String, Object> getLessonById(String lessonId) {
+        Object rawLessons = curriculumData.get("lessons");
+        if (rawLessons instanceof List<?> list) {
+            for (Object obj : list) {
+                if (obj instanceof Map<?, ?> m) {
+                    if (lessonId.equals(String.valueOf(m.get("id")))) {
+                        Map<String, Object> copy = new LinkedHashMap<>();
+                        m.forEach((k, v) -> copy.put(String.valueOf(k), v));
+                        return copy;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     @SuppressWarnings("unchecked")

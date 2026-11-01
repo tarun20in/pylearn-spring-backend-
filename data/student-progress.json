@@ -4,6 +4,10 @@
     "c12-ch2-functions",
     "c12-ch3-exceptions"
   ],
-  "completedPracticals": [],
+  "completedPracticals": [
+    "prac-101-text-hashes",
+    "prac-102-vowels-consonants",
+    "prac-c11-3"
+  ],
   "examAttempts": []
 }
