@@ -3,7 +3,12 @@ package com.pylearn.backend.controller;
 import com.pylearn.backend.service.AuthUserService;
 import com.pylearn.backend.service.CatalogService;
 import com.pylearn.backend.service.StudentProgressService;
+import com.pylearn.backend.service.VideoVisualizationService;
 import com.pylearn.backend.websocket.PythonExecutionWebSocketHandler;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,17 +34,20 @@ public class PortalApiController {
     private final StudentProgressService progressService;
     private final PythonExecutionWebSocketHandler wsHandler;
     private final AuthUserService authUserService;
+    private final VideoVisualizationService videoService;
 
     public PortalApiController(
             CatalogService catalogService,
             StudentProgressService progressService,
             PythonExecutionWebSocketHandler wsHandler,
-            AuthUserService authUserService
+            AuthUserService authUserService,
+            VideoVisualizationService videoService
     ) {
         this.catalogService = catalogService;
         this.progressService = progressService;
         this.wsHandler = wsHandler;
         this.authUserService = authUserService;
+        this.videoService = videoService;
     }
 
     @GetMapping("/navigation/menu")
@@ -217,5 +226,32 @@ public class PortalApiController {
     public ResponseEntity<Map<String, Object>> deleteVivaCard(@PathVariable String cardId) {
         boolean removed = catalogService.deleteVivaCard(cardId);
         return ResponseEntity.ok(Map.of("deleted", removed, "id", cardId));
+    }
+
+    // =========================================================================
+    // Line-by-Line Python Video Visualization Endpoints
+    // =========================================================================
+
+    @PostMapping("/ide/visualize-video")
+    public ResponseEntity<Map<String, Object>> generateVideoVisualization(@RequestBody Map<String, String> payload) {
+        String code = payload.get("code");
+        String title = payload.getOrDefault("title", "main.py");
+        Map<String, Object> result = videoService.generateVideoVisualization(code, title);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/ide/videos/{videoId}.mp4")
+    public ResponseEntity<Resource> streamVideo(@PathVariable String videoId) {
+        File videoFile = videoService.getVideoFile(videoId);
+        if (videoFile == null || !videoFile.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+        Resource resource = new FileSystemResource(videoFile);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("video/mp4"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + videoFile.getName() + "\"")
+                .header(HttpHeaders.ACCEPT_RANGES, "bytes")
+                .contentLength(videoFile.length())
+                .body(resource);
     }
 }

@@ -35,3 +35,7 @@ build/
 *.log
 .DS_Store
 Thumbs.db
+
+### Generated Media & Videos ###
+data/videos/
+*.mp4
