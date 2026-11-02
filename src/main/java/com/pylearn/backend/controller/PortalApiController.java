@@ -2,6 +2,7 @@ package com.pylearn.backend.controller;
 
 import com.pylearn.backend.service.AuthUserService;
 import com.pylearn.backend.service.CatalogService;
+import com.pylearn.backend.service.RoverSimulationService;
 import com.pylearn.backend.service.StudentProgressService;
 import com.pylearn.backend.service.VideoVisualizationService;
 import com.pylearn.backend.websocket.PythonExecutionWebSocketHandler;
@@ -35,19 +36,22 @@ public class PortalApiController {
     private final PythonExecutionWebSocketHandler wsHandler;
     private final AuthUserService authUserService;
     private final VideoVisualizationService videoService;
+    private final RoverSimulationService roverService;
 
     public PortalApiController(
             CatalogService catalogService,
             StudentProgressService progressService,
             PythonExecutionWebSocketHandler wsHandler,
             AuthUserService authUserService,
-            VideoVisualizationService videoService
+            VideoVisualizationService videoService,
+            RoverSimulationService roverService
     ) {
         this.catalogService = catalogService;
         this.progressService = progressService;
         this.wsHandler = wsHandler;
         this.authUserService = authUserService;
         this.videoService = videoService;
+        this.roverService = roverService;
     }
 
     @GetMapping("/navigation/menu")
@@ -256,5 +260,25 @@ public class PortalApiController {
                 .header(HttpHeaders.EXPIRES, "0")
                 .contentLength(videoFile.length())
                 .body(resource);
+    }
+
+    // =========================================================================
+    // AstroBot 3D / Planetary Exploration Rover Sandbox Endpoints
+    // =========================================================================
+
+    @PostMapping("/sandbox/rover/run")
+    public ResponseEntity<Map<String, Object>> runRoverSimulation(@RequestBody Map<String, Object> payload) {
+        String code = (String) payload.get("code");
+        String missionId = (String) payload.getOrDefault("missionId", "free_explore");
+        Integer seed = payload.containsKey("seed") ? ((Number) payload.get("seed")).intValue() : 42;
+        @SuppressWarnings("unchecked")
+        Map<String, Object> customConfig = (Map<String, Object>) payload.get("customConfig");
+        Map<String, Object> result = roverService.runSimulation(code, missionId, seed, customConfig);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/sandbox/rover/missions")
+    public ResponseEntity<List<Map<String, Object>>> getRoverMissions() {
+        return ResponseEntity.ok(roverService.getAvailableMissions());
     }
 }
